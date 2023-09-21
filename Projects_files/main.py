@@ -4,11 +4,11 @@ import mysql.connector
 from geopy import distance
 
 connection = mysql.connector.connect(
-         host='127.0.0.1',
+         host='172.232.129.9',
          port= 3306,
          database='escaperussia_test',
-         user='root',
-         password='123321',
+         user='escapee',
+         password='123456789',
          autocommit=True
          )
 def getcoordinates(id):
@@ -54,6 +54,13 @@ def getneighbors(id):
     neighborsID = cursor.fetchall()
     return neighborsID
 
+def getcoordinates(station):
+    sql = "SELECT latitude, longitude FROM Stations"
+    sql += " WHERE StationID='" + station + "'" +" OR StationName ='" + station + "'"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
 def main():
     ScreenName = input("Choose your name: ")
     Balance = str(random.randint(20,100))
@@ -62,6 +69,8 @@ def main():
     neighbors = getneighbors(id)
     print(f"{ScreenName}, you are at station {StationName[0][0]}\nYour balance is {Balance} rubles")
     for station in neighbors:
-        print(f"You can travel to {station[0]}")
+        coordinates1 = getcoordinates(station[0])
+        coordinates2 = getcoordinates(id)
+        print(f"You can travel to {station[0]}, distance is {distance.distance(coordinates1,coordinates2).km:.0f} kilometers")
 
 main()
