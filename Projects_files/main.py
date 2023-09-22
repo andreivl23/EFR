@@ -10,8 +10,8 @@ connection = mysql.connector.connect(
          autocommit=True
          )
 
-def getcurrentstationname(id):
-    sql = "SELECT StationName FROM Stations, Game WHERE StationID = Location AND Game.location ='" + id + "'"
+def getcurrentstationname(Location):
+    sql = "SELECT StationName FROM Stations, Game WHERE StationID = Location AND Game.location ='" + Location + "'"
     cursor = connection.cursor()
     cursor.execute(sql)
     result = cursor.fetchall()
@@ -27,22 +27,22 @@ def getstationname(i):
 
 
 def start(ScreenName, Balance):
-    id = str(random.randint(1,3))
-    #print(ScreenName,id,Balance)
+    Location = str(random.randint(1,61))
+    #print(ScreenName,Location,Balance)
     sql = "INSERT INTO Game (ScreenName, Location, Balance) VALUES ("
-    sql += f"'{ScreenName}'," + f"{id}," + f"'{Balance}')"
+    sql += f"'{ScreenName}'," + f"{Location}," + f"'{Balance}')"
     cursor = connection.cursor()
     cursor.execute(sql)
 
-    return id
+    return Location
 
 
-def getneighbors(id):
-    sql = f"SELECT StationName from Stations, Connections WHERE StationID2 = StationID AND StationID1 = '{id}'"
+def getneighbors(Location):
+    sql = f"SELECT StationName from Stations, Connections WHERE StationID2 = StationID AND StationID1 = '{Location}'"
     cursor = connection.cursor()
     cursor.execute(sql)
-    neighborsID = cursor.fetchall()
-    return neighborsID
+    neighborsname = cursor.fetchall()
+    return neighborsname
 
 def getcoordinates(station):
     sql = "SELECT latitude, longitude FROM Stations"
@@ -60,9 +60,9 @@ def cleartable():
 def main():
     ScreenName = input("Choose your name: ")
     Balance = str(random.randint(20,100))
-    id = start(ScreenName, Balance)
-    StationName = getcurrentstationname(id)
-    neighbors = getneighbors(id)
+    Location = start(ScreenName, Balance)
+    StationName = getcurrentstationname(Location)
+    neighbors = getneighbors(Location)
     print(f"{ScreenName}, you are at station {StationName[0][0]}\nYour balance is {Balance} rubles")
     for station in neighbors:
         print(f"You can travel to {station[0]}")
