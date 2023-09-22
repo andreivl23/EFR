@@ -51,6 +51,12 @@ def getcoordinates(station):
     cursor.execute(sql)
     result = cursor.fetchall()
     return result
+
+def cleartable():
+    sql = "DELETE FROM Game"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    return
 def main():
     ScreenName = input("Choose your name: ")
     Balance = str(random.randint(20,100))
@@ -62,3 +68,4 @@ def main():
         print(f"You can travel to {station[0]}")
 
 main()
+cleartable()
