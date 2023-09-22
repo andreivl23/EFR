@@ -1,7 +1,5 @@
 import random
-
 import mysql.connector
-from geopy import distance
 
 connection = mysql.connector.connect(
          host='172.232.129.9',
@@ -11,14 +9,6 @@ connection = mysql.connector.connect(
          password='123456789',
          autocommit=True
          )
-def getcoordinates(id):
-
-    sql = "SELECT Latitude, Longitude FROM Stations"
-    sql += " WHERE StationID='" + id + "'"
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
 
 def getcurrentstationname(id):
     sql = "SELECT StationName FROM Stations, Game WHERE StationID = Location AND Game.location ='" + id + "'"
@@ -69,8 +59,6 @@ def main():
     neighbors = getneighbors(id)
     print(f"{ScreenName}, you are at station {StationName[0][0]}\nYour balance is {Balance} rubles")
     for station in neighbors:
-        coordinates1 = getcoordinates(station[0])
-        coordinates2 = getcoordinates(id)
-        print(f"You can travel to {station[0]}, distance is {distance.distance(coordinates1,coordinates2).km:.0f} kilometers")
+        print(f"You can travel to {station[0]}")
 
 main()
