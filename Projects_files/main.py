@@ -91,7 +91,7 @@ def moveto(station):
     cursor.execute(sql)
     return
 
-#pikku moka
+#pikku moka #2
 def main():
     game_on = True
 
