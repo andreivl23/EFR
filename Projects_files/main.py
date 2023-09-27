@@ -22,7 +22,6 @@ def get_stations():
     return result
 
 
-
 def getcurrentstationname(gameid):
     sql = f"SELECT StationName FROM Stations WHERE StationID = {gameid}"
     cursor = connection.cursor()
@@ -93,15 +92,17 @@ def moveto(station):
     return
 
 
-
 def screen_refresh():
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     return
-def slowprint(text,speed):
+
+
+def slowprint(text, speed):
     for char in text:
         print(char, end='', flush=True)  # Print a character without a newline
         time.sleep(speed)
     return
+
 
 def main():
 
@@ -146,7 +147,7 @@ In those events, you can either earn get or lose vodka bottles. \n")
                 neighbors = getneighbors(stationid[0])
                 text = f"\n{screen_name}, arriving at {stationname[0]}\n" \
                        f"Your balance is {vodka_balance} bottles of vodka.\n"
-                slowprint(text,0.03)
+                slowprint(text, 0.03)
                 time.sleep(1)
                 text = "\nConnected stations:\n...\n"
                 slowprint(text, 0.05)
