@@ -3,9 +3,9 @@ import mysql.connector
 import time
 
 connection = mysql.connector.connect(
-         host='127.0.0.1',
+         host='172.232.129.9',
          port=3306,
-         database='efr_liu_test',
+         database='efr_test',
          user='root',
          password='123321',
          autocommit=True
