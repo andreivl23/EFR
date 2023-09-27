@@ -1,12 +1,13 @@
 import random
 import mysql.connector
+import time
 
 connection = mysql.connector.connect(
          host='127.0.0.1',
          port=3306,
-         database='',
-         user='',
-         password='',
+         database='efr_liu_test',
+         user='root',
+         password='123321',
          autocommit=True
          )
 
@@ -92,31 +93,69 @@ def moveto(station):
     return
 
 
+
+def screen_refresh():
+    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    return
+def slowprint(text,speed):
+    for char in text:
+        print(char, end='', flush=True)  # Print a character without a newline
+        time.sleep(speed)
+    return
+
 def main():
-    game_on = True
 
-    screen_name = str(input("Choose your name: "))
-    vodka_balance = 10
-    all_stations = get_stations()
-    current_station = all_stations[0]['StationID']
+    chosed = 0
+    while chosed != "3":
+        screen_refresh()
+        print("""\n::::::::::::::::::
+ESCAPE FROM RUSSIA\n
+1) Start the game
+2) Read manual
+3) Exit\n""")
+        chosed = input("Choose: ")
+        time.sleep(1)
+        if chosed == "2":
+            screen_refresh()
+            print("\nWhen you are at station, you can move only to stations next to the current station.\n\
+Each travel costs one bottle of vodka. You have limited amount of vodka. \n\
+Your goal is to find an airplane, that is hidden in a random city.\n\
+During your travel between stations, there is a chance something will happen.\n\
+In those events, you can either earn get or lose vodka bottles. \n")
+            input("Press enter to continue")
 
-    game_id = start(vodka_balance, current_station, screen_name, all_stations)
-
-    while game_on:
-
-        stationname = getcurrentstationname(current_station)
-        stationid = getstationid(stationname[0])
-        neighbors = getneighbors(stationid[0])
-
-        print(f"...\n{screen_name}, you are at station {stationname[0]}\n"
-              f"Your balance is {vodka_balance} bottles of vodka.")
-        print("Connected stations: ")
-        for station in neighbors:
-            print(f"{station[0]} (ID: {station[1]})")
-
-        chosed = input("Where to?: ")
-        moveto(chosed)
-        current_station = chosed
+        elif chosed == "1":
+            screen_refresh()
+            screen_name = str(input("Choose your name: "))
+            vodka_balance = 10
+            all_stations = get_stations()
+            current_station = all_stations[0]['StationID']
+            game_id = start(vodka_balance, current_station, screen_name, all_stations)
+            chosed = current_station
+            while chosed != "":
+                screen_refresh()
+                moveto(chosed)
+                current_station = chosed
+                screen_refresh()
+                print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...")
+                print("\n\n\n\n")
+                time.sleep(1)
+                screen_refresh()
+                stationname = getcurrentstationname(current_station)
+                stationid = getstationid(stationname[0])
+                neighbors = getneighbors(stationid[0])
+                text = f"\n{screen_name}, arriving at {stationname[0]}\n" \
+                       f"Your balance is {vodka_balance} bottles of vodka.\n"
+                slowprint(text,0.03)
+                time.sleep(1)
+                text = "\nConnected stations:\n...\n"
+                slowprint(text, 0.05)
+                for station in neighbors:
+                    time.sleep(0.5)
+                    print(f"{station[0]} (ID: {station[1]})")
+                print("...")
+                time.sleep(0.5)
+                chosed = input("Where to: ")
 
 
 main()
