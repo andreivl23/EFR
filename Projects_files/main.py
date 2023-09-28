@@ -123,7 +123,6 @@ def moveto(station,game_id):
 def menu():
     chosed = 0
     while chosed != "1":
-        cleartable()
         printtext("menu")
         chosed = input("Choose: ")
         if chosed == "2":
