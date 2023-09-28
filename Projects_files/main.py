@@ -104,10 +104,27 @@ def slowprint(text, speed):
     return
 
 
+def updatebalance(balance, amount):
+    sql = f"UPDATE `efr_test`.`game` SET `Balance`={int(balance)+amount}"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    return
+
+
+def getbalance():
+    sql = "SELECT balance FROM game"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    balance = cursor.fetchone()
+    return balance[0]
+
+
 def main():
+
 
     chosed = 0
     while chosed != "3":
+        cleartable()
         screen_refresh()
         print("""\n::::::::::::::::::
 ESCAPE FROM RUSSIA\n
@@ -115,7 +132,7 @@ ESCAPE FROM RUSSIA\n
 2) Read manual
 3) Exit\n""")
         chosed = input("Choose: ")
-        time.sleep(1)
+        #time.sleep(1)
         if chosed == "2":
             screen_refresh()
             print("\nWhen you are at station, you can move only to stations next to the current station.\n\
@@ -128,7 +145,7 @@ In those events, you can either earn get or lose vodka bottles. \n")
         elif chosed == "1":
             screen_refresh()
             screen_name = str(input("Choose your name: "))
-            vodka_balance = 10
+            vodka_balance = 3
             all_stations = get_stations()
             current_station = all_stations[0]['StationID']
             game_id = start(vodka_balance, current_station, screen_name, all_stations)
@@ -136,28 +153,29 @@ In those events, you can either earn get or lose vodka bottles. \n")
             while chosed != "":
                 screen_refresh()
                 moveto(chosed)
+                balance = getbalance()
+                updatebalance(balance,-1)
+                balance = getbalance()
+                if balance < 1:
+                    print(f"::::::::::::::::::::::\nTHE TRAIN RAN OVER YOU\n::::::::::::::::::::::\n\n")
+                    input("Press enter to continue")
+                    break
                 current_station = chosed
                 screen_refresh()
                 print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...")
                 print("\n\n\n\n")
-                time.sleep(1)
                 screen_refresh()
                 stationname = getcurrentstationname(current_station)
                 stationid = getstationid(stationname[0])
                 neighbors = getneighbors(stationid[0])
-                text = f"\n{screen_name}, arriving at {stationname[0]}\n" \
-                       f"Your balance is {vodka_balance} bottles of vodka.\n"
-                slowprint(text, 0.03)
-                time.sleep(1)
-                text = "\nConnected stations:\n...\n"
-                slowprint(text, 0.05)
+                print(f"\n{screen_name}, arriving at {stationname[0]}\n" \
+                       f"Your balance is {balance} bottles of vodka.")
+                print("Connected stations:\n...")
                 for station in neighbors:
-                    time.sleep(0.5)
                     print(f"{station[0]} (ID: {station[1]})")
                 print("...")
-                time.sleep(0.5)
                 chosed = input("Where to: ")
 
 
 main()
-cleartable()
+
