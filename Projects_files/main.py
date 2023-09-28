@@ -120,27 +120,18 @@ def getbalance():
 
 
 def main():
-
-
     chosed = 0
+
     while chosed != "3":
         cleartable()
         screen_refresh()
-        print("""\n::::::::::::::::::
-ESCAPE FROM RUSSIA\n
-1) Start the game
-2) Read manual
-3) Exit\n""")
+
+        printtext("menu")
         chosed = input("Choose: ")
-        #time.sleep(1)
+
         if chosed == "2":
             screen_refresh()
-            print("\nWhen you are at station, you can move only to stations next to the current station.\n\
-Each travel costs one bottle of vodka. You have limited amount of vodka. \n\
-Your goal is to find an airplane, that is hidden in a random city.\n\
-During your travel between stations, there is a chance something will happen.\n\
-In those events, you can either earn get or lose vodka bottles. \n")
-            input("Press enter to continue")
+            printtext("manual")
 
         elif chosed == "1":
             screen_refresh()
@@ -150,24 +141,27 @@ In those events, you can either earn get or lose vodka bottles. \n")
             current_station = all_stations[0]['StationID']
             game_id = start(vodka_balance, current_station, screen_name, all_stations)
             chosed = current_station
-            while chosed != "":
+            while chosed != "x":
                 screen_refresh()
                 moveto(chosed)
+
                 balance = getbalance()
                 updatebalance(balance,-1)
                 balance = getbalance()
                 if balance < 1:
-                    print(f"::::::::::::::::::::::\nTHE TRAIN RAN OVER YOU\n::::::::::::::::::::::\n\n")
-                    input("Press enter to continue")
+                    printtext("gameover")
                     break
+
+
+                screen_refresh()
+                printtext("chuh-chuh")
+                screen_refresh()
+
                 current_station = chosed
-                screen_refresh()
-                print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...")
-                print("\n\n\n\n")
-                screen_refresh()
                 stationname = getcurrentstationname(current_station)
                 stationid = getstationid(stationname[0])
                 neighbors = getneighbors(stationid[0])
+
                 print(f"\n{screen_name}, arriving at {stationname[0]}\n" \
                        f"Your balance is {balance} bottles of vodka.")
                 print("Connected stations:\n...")
@@ -176,6 +170,26 @@ In those events, you can either earn get or lose vodka bottles. \n")
                 print("...")
                 chosed = input("Where to: ")
 
+
+def printtext(option):
+    if option == "menu":
+        print("""\n::::::::::::::::::
+ESCAPE FROM RUSSIA\n
+1) Start the game
+2) Read manual
+3) Exit\n""")
+    elif option == "manual":
+        print("\nWhen you are at station, you can move only to stations next to the current station.\n\
+Each travel costs one bottle of vodka. You have limited amount of vodka. \n\
+Your goal is to find an airplane, that is hidden in a random city.\n\
+During your travel between stations, there is a chance something will happen.\n\
+In those events, you can either earn get or lose vodka bottles. \n")
+        input("Press enter to continue")
+    elif option == "gameover":
+        print(f"::::::::::::::::::::::\nTHE TRAIN RAN OVER YOU\n::::::::::::::::::::::\n\n")
+        input("Press enter to continue")
+    elif option == "chuh-chuh":
+        print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
 
 main()
 
