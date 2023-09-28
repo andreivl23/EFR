@@ -3,9 +3,9 @@ import mysql.connector
 import time
 
 connection = mysql.connector.connect(
-         host='127.0.0.1',
+         host='172.232.129.9',
          port=3306,
-         database='efr_liu_test',
+         database='efr_test',
          user='root',
          password='123321',
          autocommit=True
@@ -20,7 +20,6 @@ def get_stations():
     cursor.execute(sql)
     result = cursor.fetchall()
     return result
-
 
 
 def getcurrentstationname(gameid):
@@ -93,15 +92,17 @@ def moveto(station):
     return
 
 
-
 def screen_refresh():
     print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
     return
-def slowprint(text,speed):
+
+
+def slowprint(text, speed):
     for char in text:
         print(char, end='', flush=True)  # Print a character without a newline
         time.sleep(speed)
     return
+
 
 def main():
 
@@ -146,7 +147,7 @@ In those events, you can either earn get or lose vodka bottles. \n")
                 neighbors = getneighbors(stationid[0])
                 text = f"\n{screen_name}, arriving at {stationname[0]}\n" \
                        f"Your balance is {vodka_balance} bottles of vodka.\n"
-                slowprint(text,0.03)
+                slowprint(text, 0.03)
                 time.sleep(1)
                 text = "\nConnected stations:\n...\n"
                 slowprint(text, 0.05)
