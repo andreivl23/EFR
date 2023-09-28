@@ -180,7 +180,6 @@ def main():
     chosed = current_station
     while chosed != "":
         screen_refresh()
-        moveto(chosed)
         balance = getbalance()
         updatebalance(balance,-1)
         balance = getbalance()
@@ -188,15 +187,16 @@ def main():
             print(f"::::::::::::::::::::::\nTHE TRAIN RAN OVER YOU\n::::::::::::::::::::::\n\n")
             input("Press enter to continue")
             break
-        current_station = chosed
-        print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...")
-        print("\n\n\n\n")
-        screen_refresh()
-        stationname = getcurrentstationname(current_station)
-        stationid = getstationid(stationname[0])
-        neighbors = getneighbors(stationid[0])
 
-        ############# MENU ###############
+        ################ to work with ###########
+
+        moveto(chosed)                                         # смена локации
+        current_station = chosed
+        stationname = getcurrentstationname(current_station)  # надо объединять
+        stationid = getstationid(stationname[0])
+        neighbors = getneighbors(stationid[0]) # соседние станции
+
+        ################### MENU ################
 
         print(f'''{screen_name}, arriving at {stationname[0]}
 Your balance is {balance} bottles of vodka.
