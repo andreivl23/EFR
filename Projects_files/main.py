@@ -1,6 +1,7 @@
 import random
 import mysql.connector
 import time
+import sys
 
 connection = mysql.connector.connect(
          host='172.232.129.9',
@@ -85,15 +86,8 @@ def cleartable():
     return
 
 
-def moveto(station):
-    sql = f"UPDATE Game SET Location = '{station}' "
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    return
-
-
 def screen_refresh():
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("\n"*30)
     return
 
 
@@ -104,86 +98,112 @@ def slowprint(text, speed):
     return
 
 
-def updatebalance(balance, amount):
-    sql = f"UPDATE `efr_test`.`game` SET `Balance`={int(balance)+amount}"
+def updatebalance(amount, game_id):
+    sql = f"UPDATE game SET Balance = Balance+({amount}) WHERE GameID = '{game_id}'"
     cursor = connection.cursor()
     cursor.execute(sql)
     return
 
 
-def getbalance():
-    sql = "SELECT balance FROM game"
+def getbalance(game_id):
+    sql = f"SELECT balance FROM game WHERE GameID = '{game_id}'"
     cursor = connection.cursor()
     cursor.execute(sql)
     balance = cursor.fetchone()
     return balance[0]
 
 
-def main():
+def moveto(station,game_id):
+    updatebalance(-1, game_id)
+    sql = f"UPDATE Game SET Location = '{station}' "
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    return
+
+def menu():
     chosed = 0
-
-    while chosed != "3":
+    while chosed != "1":
         cleartable()
-        screen_refresh()
-
         printtext("menu")
         chosed = input("Choose: ")
-
         if chosed == "2":
-            screen_refresh()
+            printtext("story")
+        elif chosed == "3":
             printtext("manual")
+        elif chosed == "4":
+            print('\nWelcome again!!!\n')
+            sys.exit()
+    main()
 
-        elif chosed == "1":
-            screen_refresh()
-            screen_name = str(input("Choose your name: "))
-            vodka_balance = 3
-            all_stations = get_stations()
-            current_station = all_stations[0]['StationID']
-            game_id = start(vodka_balance, current_station, screen_name, all_stations)
-            chosed = current_station
-            while chosed != "x":
-                screen_refresh()
-                moveto(chosed)
+def main():
 
-                balance = getbalance()
-                updatebalance(balance,-1)
-                balance = getbalance()
-                if balance < 1:
-                    printtext("gameover")
-                    break
+    ##################### Start #########################
 
+    screen_refresh()
+    screen_name = str(input("Choose your name: "))
+    print('\n\n... Loading ...\n\n')
 
-                screen_refresh()
-                printtext("chuh-chuh")
-                screen_refresh()
+    ###################### Sys ##########################
 
-                current_station = chosed
-                stationname = getcurrentstationname(current_station)
-                stationid = getstationid(stationname[0])
-                neighbors = getneighbors(stationid[0])
+    vodka_balance = 3
+    all_stations = get_stations()
+    current_station = all_stations[0]['StationID']
+    game_id = start(vodka_balance, current_station, screen_name, all_stations)
+    chosed = current_station
 
-                print(f"\n{screen_name}, arriving at {stationname[0]}\n" \
-                       f"Your balance is {balance} bottles of vodka.")
-                print("Connected stations:\n...")
-                for station in neighbors:
-                    print(f"{station[0]} (ID: {station[1]})")
-                print("...")
-                chosed = input("Where to: ")
+    while chosed != "x":
+        screen_refresh()
+        moveto(chosed,game_id)                               # смена локации
 
+        balance = getbalance(game_id)
+        if balance < 1:
+            printtext("gameover")
+            break
+
+        ################ to work with ###########
+
+        current_station = chosed
+        stationname = getcurrentstationname(current_station) # надо объединять
+        stationid = getstationid(stationname[0])
+        neighbors = getneighbors(stationid[0]) # соседние станции
+
+        ################### STATION MENU ################
+
+        print(f"\n{screen_name}, arriving at {stationname[0]}\n" \
+               f"Your balance is {balance} bottles of vodka.")
+        print("Connected stations:\n...")
+        for station in neighbors:
+            print(f"{station[0]} (ID: {station[1]})")
+        print("...")
+        chosed = input("Where to: ")
+
+    menu()
 
 def printtext(option):
     if option == "menu":
+        screen_refresh()
         print("""\n::::::::::::::::::
 ESCAPE FROM RUSSIA\n
 1) Start the game
-2) Read manual
-3) Exit\n""")
+2) Game story
+3) Read manual 
+4) Exit\n""")
+
     elif option == "manual":
+        screen_refresh()
         print("\nWhen you are at station, you can move only to stations next to the current station.\n\
 Each travel costs one bottle of vodka. You have limited amount of vodka. \n\
 Your goal is to find an airplane, that is hidden in a random city.\n\
 During your travel between stations, there is a chance something will happen.\n\
 In those events, you can either earn get or lose vodka bottles. \n")
+        input("Press enter to continue")
+    elif option == "story":
+        screen_refresh()
+        print(f'''Olet kansanedustaja, joka varasti rahaa hallituksen sopimuksesta ja jäi kiinni. 
+Presidentti on julistanut sinut kansan viholliseksi. Koko maa etsii sinua. Sinun on pakko 
+piiloutua pummiksi. Heti kun raitistut, pummit potkaisevat sinut ulos puolueestaan. 
+Sinulla oli varakone, mutta et muista, mihin jätit sen.
+''')
         input("Press enter to continue")
     elif option == "gameover":
         print(f"::::::::::::::::::::::\nTHE TRAIN RAN OVER YOU\n::::::::::::::::::::::\n\n")
@@ -191,5 +211,5 @@ In those events, you can either earn get or lose vodka bottles. \n")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
 
-main()
+menu()
 
