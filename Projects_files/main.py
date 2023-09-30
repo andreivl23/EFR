@@ -101,7 +101,7 @@ def slowprint(text, speed):
     return
 
 
-def updatebalance(amount, game_id):
+def update_balance(amount, game_id):
     sql = f"UPDATE game SET Balance = Balance+({amount}) WHERE GameID = '{game_id}'"
     cursor = connection.cursor()
     cursor.execute(sql)
@@ -117,7 +117,7 @@ def get_balance(game_id):
 
 
 def moveto(station,game_id):
-    updatebalance(-1, game_id)
+    update_balance(-1, game_id)
     sql = f"UPDATE Game SET Location = '{station}' "
     cursor = connection.cursor()
     cursor.execute(sql)
