@@ -108,7 +108,7 @@ def updatebalance(amount, game_id):
     return
 
 
-def getbalance(game_id):
+def get_balance(game_id):
     sql = f"SELECT balance FROM game WHERE GameID = '{game_id}'"
     cursor = connection.cursor()
     cursor.execute(sql)
@@ -155,7 +155,7 @@ def main():
         screen_refresh()
         moveto(current_station,game_id)
 
-        balance = getbalance(game_id)
+        balance = get_balance(game_id)
         if balance < 0:
             print_text("gameover")
             break
