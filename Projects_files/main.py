@@ -21,7 +21,7 @@ def get_stations():
     return result
 
 
-def get_current_station_name(gameid):
+def getcurrentstationname(gameid):
     sql = f"SELECT StationName FROM Stations WHERE StationID = {gameid}"
     cursor = connection.cursor()
     cursor.execute(sql)
