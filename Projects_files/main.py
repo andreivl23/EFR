@@ -138,6 +138,8 @@ def main():
     screen_refresh()
     screen_name = str(input("Choose your name: "))
     print('\n\n... Loading ...\n\n')
+    if screen_name == 'Putin':
+        vodka_balance = 100000
 
     ###################### Sys ##########################
 
