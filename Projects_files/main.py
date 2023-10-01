@@ -21,20 +21,12 @@ def get_stations():
     return result
 
 
-def get_current_station_name(gameid):
-    sql = f"SELECT StationName FROM Stations WHERE StationID = {gameid}"
+def get_current_station_name(station_id):
+    sql = f"SELECT StationName FROM Stations WHERE StationID = {station_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
     result = cursor.fetchone()
     return result
-
-
-def get_station_id(stationname):
-    sql = f"SELECT StationID from Stations WHERE StationName = '{stationname}'"
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    neighbor = cursor.fetchone()
-    return neighbor
 
 
 def get_goals():
@@ -163,14 +155,14 @@ def main():
             break
 
         station_name = get_current_station_name(current_station)
-        station_id = get_station_id(station_name[0])
-        neighbors = get_neighbors(station_id[0])
+        neighbors = get_neighbors(current_station)
 
         ################### STATION MENU ################
 
         print(f"\n{screen_name}, arriving at {station_name[0]}\n" \
                f"Your balance is {balance} bottles of vodka.")
         print("Connected stations:\n...")
+
         for choice in neighbors:
             city, id = neighbors[choice]
             print(f"{choice}) {city}")
