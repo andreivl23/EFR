@@ -68,18 +68,20 @@ def start(resource, current_station, player, stations):
     return g_id
 
 
-def get_neighbors_name_and_id(station_id):
+def get_neighbors(station_id):
     sql = f"SELECT StationName, StationID from Stations, Connections WHERE StationID2 = StationID AND StationID1 = '"
     sql += f"{station_id}'"
     cursor = connection.cursor()
     cursor.execute(sql)
-    neighbors_name = cursor.fetchall()
+    neighbors = cursor.fetchall()
 
-    neighbors_id = []
-    for id in neighbors_name:
-        neighbors_id.append(str(id[1]))
+    neighbors_dictionary = {}
+    num = 0
+    for city in neighbors:
+        num += 1
+        neighbors_dictionary[str(num)] = city
 
-    return neighbors_name, neighbors_id
+    return neighbors_dictionary
 
 
 def cleartable():
@@ -162,22 +164,26 @@ def main():
 
         station_name = get_current_station_name(current_station)
         station_id = get_station_id(station_name[0])
-        neighbors, neighbors_id = get_neighbors_name_and_id(station_id[0])
+        neighbors = get_neighbors(station_id[0])
 
         ################### STATION MENU ################
 
         print(f"\n{screen_name}, arriving at {station_name[0]}\n" \
                f"Your balance is {balance} bottles of vodka.")
         print("Connected stations:\n...")
-        for station in neighbors:
-            print(f"{station[0]} (ID: {station[1]})")
+        for choice in neighbors:
+            city, id = neighbors[choice]
+            print(f"{choice}) {city}")
         print("...")
 
         current_station = input("Where to: ")
 
-        while ( current_station not in neighbors_id ) and current_station != 'x':
+        while (current_station not in neighbors) and current_station != 'x':
             print('\n\nWrong input, please try again.')
             current_station = input("Where to: ")
+
+        city, id = neighbors[current_station]
+        current_station = id
 
     menu()
 
