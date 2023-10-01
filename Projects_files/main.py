@@ -145,7 +145,7 @@ def main():
     current_station = all_stations[0]['StationID']
     game_id = start(vodka_balance, current_station, screen_name, all_stations)
 
-    while current_station != "x":
+    while True:
         screen_refresh()
         moveto(current_station,game_id)
 
@@ -154,17 +154,17 @@ def main():
             print_text("gameover")
             break
 
+        ################### STATION MENU ################
+
         station_name = get_current_station_name(current_station)
         neighbors = get_neighbors(current_station)
-
-        ################### STATION MENU ################
 
         print(f"\n{screen_name}, arriving at {station_name[0]}\n" \
                f"Your balance is {balance} bottles of vodka.")
         print("Connected stations:\n...")
 
         for choice in neighbors:
-            city, id = neighbors[choice]
+            city, city_id = neighbors[choice]
             print(f"{choice}) {city}")
         print("...")
 
@@ -174,8 +174,8 @@ def main():
             print('\n\nWrong input, please try again.')
             current_station = input("Where to: ")
 
-        city, id = neighbors[current_station]
-        current_station = id
+        if current_station == 'x': break
+        city, current_station = neighbors[current_station]
 
     menu()
 
@@ -215,4 +215,3 @@ ESCAPE FROM RUSSIA\n
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
 
 menu()
-
