@@ -214,51 +214,51 @@ def update_balance(amount, game_id):
 
 
 def main():
-
     menu()
-    screen_refresh()
-
-    ##################### Start #########################
-
-    current_station, game_id = create_game()
-
     while True:
         screen_refresh()
-        moveto(current_station, game_id)
 
-        balance = get_balance(game_id)
-        if balance < 0:
-            print_text("gameover")
-            break
+        ##################### Start #########################
 
-        ################### STATION MENU ################
+        current_station, game_id = create_game()
 
-        station_name = get_current_station_name(current_station)
-        neighbors = get_neighbors(current_station)
+        while True:
+            screen_refresh()
+            moveto(current_station, game_id)
 
-        print(f"\nYou're arriving at {station_name[0]}.\n")
-        print(f"Your balance is {balance} bottles of vodka.")
-        print("Connected stations:\n...")
+            balance = get_balance(game_id)
+            if balance < 0:
+                print_text("gameover")
+                break
 
-        for choice in neighbors:
-            city, city_id = neighbors[choice]
-            print(f"{choice}) {city}")
-        print("...")
+            ################### STATION MENU ################
 
-        current_station = input("Where to: ")
+            station_name = get_current_station_name(current_station)
+            neighbors = get_neighbors(current_station)
 
-        while (current_station not in neighbors) and current_station != 'x':
-            print('\n\nWrong input, please try again.')
+            print(f"\nYou're arriving at {station_name[0]}.\n")
+            print(f"Your balance is {balance} bottles of vodka.")
+            print("Connected stations:\n...")
+
             for choice in neighbors:
                 city, city_id = neighbors[choice]
                 print(f"{choice}) {city}")
+            print("...")
+
             current_station = input("Where to: ")
 
-        if current_station == 'x':
-            break
-        city, current_station = neighbors[current_station]
+            while (current_station not in neighbors) and current_station != 'x':
+                print('\n\nWrong input, please try again.')
+                for choice in neighbors:
+                    city, city_id = neighbors[choice]
+                    print(f"{choice}) {city}")
+                current_station = input("Where to: ")
 
-    menu()
+            if current_station == 'x':
+                break
+            city, current_station = neighbors[current_station]
+
+        menu()
 
 
 main()
