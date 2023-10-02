@@ -164,6 +164,14 @@ def moveto(station, game_id):
     cursor.execute(sql)
 
 
+def get_story():
+    sql = "SELECT * FROM stories ORDER BY RAND() LIMIT 1;"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    story = cursor.fetchone()
+    return story[0]
+
+
 def get_balance(game_id):
     sql = f"SELECT balance FROM game WHERE GameID = '{game_id}'"
     cursor = connection.cursor()
@@ -237,7 +245,8 @@ def main():
             neighbors = get_neighbors(current_station)
 
             print(f"\nYou're arriving at {station_name[0]}.\n")
-            print(f"Your balance is {balance} bottles of vodka.")
+            print(get_story())
+            print(f"\nYour balance is {balance} bottles of vodka.")
             print("Connected stations:\n...")
 
             for choice in neighbors:
