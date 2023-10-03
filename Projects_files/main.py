@@ -157,8 +157,7 @@ def create_game():
     return current_station, game_id
 
 
-def moveto(station, game_id):
-    update_balance(-1, game_id)
+def moveto(station):
     sql = f"UPDATE Game SET Location = '{station}' "
     cursor = connection.cursor()
     cursor.execute(sql)
@@ -232,7 +231,8 @@ def main():
 
         while True:
             screen_refresh()
-            moveto(current_station, game_id)
+            moveto(current_station)
+            update_balance(-1, game_id)
 
             balance = get_balance(game_id)
             if balance < 0:
