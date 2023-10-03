@@ -31,7 +31,7 @@ def print_text(option):
         screen_refresh()
         print("""\n::::::::::::::::::
 ESCAPE FROM RUSSIA\n
-1) Start the game
+1) Start new game
 2) Game story
 3) Read manual 
 4) Exit\n""")
@@ -127,14 +127,14 @@ def start(resource, current_station, player, stations):
 
     events = get_events()
     events_list = []
-    airplane_dictionary = events[0]
+
     for event in events:
         for i in range(0, event['probability'], 1):
             events_list.append(event['id'])
 
     t_stations = stations[1:].copy()
 
-    events_list = list(filter((1).__ne__, events_list))
+
     random.shuffle(t_stations)
 
     for i, event_id in enumerate(events_list):
@@ -143,7 +143,7 @@ def start(resource, current_station, player, stations):
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql)
 
-    return g_id, airplane_dictionary
+    return g_id
 
 
 def create_game():
@@ -155,9 +155,9 @@ def create_game():
 
     all_stations = get_stations()
     current_station = all_stations[0]['StationID']
-    game_id, airplane_dictionary = start(vodka_balance, current_station, screen_name, all_stations)
+    game_id = start(vodka_balance, current_station, screen_name, all_stations)
 
-    return current_station, game_id, airplane_dictionary
+    return current_station, game_id
 
 
 def moveto(station):
@@ -219,7 +219,12 @@ def update_balance(amount, game_id):
     cursor.execute(sql)
     return
 
-
+def get_airplane(game_id):
+    sql = f"SELECT station FROM events_location WHERE event = 1 AND game = {game_id}"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    airplane_stationname = cursor.fetchone()
+    return airplane_stationname[0]
 
 def main():
     menu()
@@ -228,23 +233,28 @@ def main():
 
         ##################### Start #########################
 
-        current_station, game_id, airplane_dictionary = create_game()
-
+        current_station, game_id = create_game()
+        airplane_location = get_airplane(game_id)
         while True:
             screen_refresh()
             moveto(current_station)
             update_balance(-1, game_id)
 
-            balance = get_balance(game_id)
-            if balance < 0:
-                print_text("gameover")
-                break
+
+
 
             ################### STATION MENU ################
 
             station_name = get_current_station_name(current_station)
+            if airplane_location == station_name[0]:
+                print("YOU WON!")
+                input("...")
+                menu()
+            balance = get_balance(game_id)
+            if balance < 0:
+                print_text("gameover")
+                break
             neighbors = get_neighbors(current_station)
-
             print(f"\nYou're arriving at {station_name[0]}.\n")
             print(get_story())
             print(f"\nYour balance is {balance} bottles of vodka.")
