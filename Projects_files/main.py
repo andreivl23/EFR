@@ -61,6 +61,10 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
         input("Press enter to continue")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
+    elif option == "win":
+        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\nYou are now returning safely to America, where PRIME is widely available")
+
+        input("\n\nPress ENTER to continue")
     elif option == "map":
         print("""
         Murmansk-----------Arkhangelsk     ---Pechora--Vorkuta
@@ -77,8 +81,10 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
         """)
 
 
-def menu():
+def menu(skip):
     chosen = 0
+    if skip == 1:
+        main()
     while chosen != "1":
         print_text("menu")
         chosen = input("Choose: ")
@@ -151,11 +157,11 @@ def start(resource, current_station, player, stations):
 
     random.shuffle(t_stations)
 
-    for i, event_id in enumerate(events_list):
-        sql = f"INSERT INTO events_location (game, station, event)" \
-              f" VALUES ({g_id}, '{t_stations[i]['StationName']}', {event_id});"
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute(sql)
+#    for i, event_id in enumerate(events_list):        # Removed for-loop due to a bug. Added only passport location to Database
+    sql = f"INSERT INTO events_location (game, station, event)" \
+          f" VALUES ({g_id}, '{t_stations[0]['StationName']}', {1});"
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
 
     return g_id
 
@@ -234,12 +240,12 @@ def update_balance(amount, game_id):
     return
 
 
-def get_airplane(game_id):
+def get_passport(game_id):
     sql = f"SELECT station FROM events_location WHERE event = 1 AND game = {game_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
-    airplane_stationname = cursor.fetchone()
-    return airplane_stationname[0]
+    passport_stationname = cursor.fetchone()
+    return passport_stationname[0]
 
 
 def event_trigger_chance():
@@ -263,14 +269,14 @@ def check_event():
 
 
 def main():
-    menu()
+    menu(0)
     while True:
         screen_refresh()
 
         ##################### Start #########################
 
         current_station, game_id = create_game()
-        airplane_location = get_airplane(game_id)
+        passport_location = get_passport(game_id)
         while True:
             screen_refresh()
             moveto(current_station)
@@ -282,10 +288,9 @@ def main():
             ################### STATION MENU ################
 
             station_name = get_current_station_name(current_station)
-            if airplane_location == station_name[0]:
-                print("YOU WON!")
-                input("...")
-                menu()
+            if passport_location == station_name[0]:
+                print_text("win")
+                menu(1)
             balance = get_balance(game_id)
             if balance < 0:
                 print_text("gameover")
@@ -329,7 +334,7 @@ def main():
                 break
             city, current_station = neighbors[current_station]
 
-        menu()
+        menu(0)
 
 
 main()
