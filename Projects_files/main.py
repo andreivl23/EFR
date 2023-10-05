@@ -86,7 +86,7 @@ def menu():
         elif chosen == "3":
             print_text("manual")
         elif chosen == "4":
-            print('\nДо свидания! Goodbye!\n')
+            print('\nSee you again! :)\n')
             sys.exit()
 
 
@@ -94,9 +94,9 @@ def difficulty():
     chosen = True
     while chosen:
         print("Choose your difficulty: 1, 2 or 3.")
-        print("1. младенец (15 vodkas)")
-        print("2. подросток (10 vodkas)")
-        print("3. мужчина (5 vodkas)")
+        print("1. Easy (15 PRIME)")
+        print("2. Medium (10 PRIME)")
+        print("3. Hard (5 PRIME)")
 
         choose = input()
         if choose == "1":
@@ -109,7 +109,7 @@ def difficulty():
             balance = 5
             chosen = False
         else:
-            print("сука блять! Please try again.")
+            print("Wrong input! Please try again.")
             print()
 
     return balance
@@ -148,7 +148,6 @@ def start(resource, current_station, player, stations):
 
     t_stations = stations[1:].copy()
 
-
     random.shuffle(t_stations)
 
     for i, event_id in enumerate(events_list):
@@ -161,15 +160,15 @@ def start(resource, current_station, player, stations):
 
 
 def create_game():
-    vodka_balance = difficulty()
+    prime_balance = difficulty()
     screen_name = str(input("Choose your name: "))
     print('\n\n... Loading ...\n\n')
-    if screen_name == 'Putin':
-        vodka_balance = 100000
+    if screen_name == 'Hero':
+        prime_balance = 100000
 
     all_stations = get_stations()
     current_station = all_stations[0]['StationID']
-    game_id = start(vodka_balance, current_station, screen_name, all_stations)
+    game_id = start(prime_balance, current_station, screen_name, all_stations)
 
     return current_station, game_id
 
@@ -233,6 +232,7 @@ def update_balance(amount, game_id):
     cursor.execute(sql)
     return
 
+
 def get_airplane(game_id):
     sql = f"SELECT station FROM events_location WHERE event = 1 AND game = {game_id}"
     cursor = connection.cursor()
@@ -259,6 +259,8 @@ def check_event():
     event_dictionary = cursor.fetchall()
 
     return event_dictionary
+
+
 def main():
     menu()
     while True:
@@ -304,7 +306,7 @@ def main():
             else:
                 print(get_story())
 
-            print(f"\nYour balance is {balance} bottles of vodka.")
+            print(f"\nYour balance is {balance} bottles of PRIME.")
             print("Connected stations:\n...")
 
             for choice in neighbors:
