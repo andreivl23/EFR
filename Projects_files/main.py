@@ -60,6 +60,29 @@ ESCAPE FROM RUSSIA\n
         input("Press enter to continue")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
+    elif option == "map":
+        print("""
+        Murmansk												                            Nizhny Bestyakh	     Sovetskaya Gavan
+	     |													            		    	 	        |                 |
+Belomorsk - Arkhangelsk 	Pechora---Vorkuta----Salekhard								           Tommot	Urgal---Komsomolsk-on-Amur
+	|	     |	     		|							                                                 |   /         /          
+	|	Konosha - Kotlas----|					Nadym---Novy Urengoy				      Nizhneangarsk---Tynda  	  /+Khabarovsk--Vladivostok
+	|	| 						                            |  			   	   	                          |   |    Birobidzhan    
+	|	Vologda - Yaroslavl - Kirov--------Perm	            Surgut-------Nizhnevartovsk	  Ust-Ilimsk      |   |   /
+	|	|    	  |		|	   |		      |			     	 |	                              |       |   Never----
+ Saint Petersburg - Moscow--"Nizhny Novgorod" Yekaterinburg------Tyumen		Lesosibirsk    Bratsk-+-Ust-Kut           |
+                     |  |     | |		 	  /	 |      		   |		       |			  |                 /Chita
+Smolensk-------------/	|-----/ |		 	 /   |---Kurgan--Omsk-----Novosibirsk--+--Krasnoyarsk-+--Irkutsk---Ulan-Ude
+	         | 			|	 	|	        |	 |			   |			                     /
+Bryanks------/	   /----+-------+-------Kazan	Chelyabinsk    ---Barbaul---Abakan--------------/
+  |      /         |            |		 |			     |           |
+Oryol--------Voronezh---------Saratov---Samara-----Ufa---+-----------/
+		        |			  |	   	 |                  /
+		        |------Volgograd	Orenburg    /------/
+	    Rostov-on-Don          |	     	|  /	
+		        |	      Astrakhan---------Orsk
+Novorossiysk---Krasnodar
+        """)
 
 
 def menu():
@@ -226,6 +249,25 @@ def get_airplane(game_id):
     airplane_stationname = cursor.fetchone()
     return airplane_stationname[0]
 
+
+def event_trigger_chance():
+    result = random.randint(0, 2)
+    if result == 1:
+        roll = True
+    else:
+        roll = False
+
+    return roll
+
+
+def check_event():
+    game_id = random.randint(2, 5)
+    sql = f"SELECT name, balance FROM events WHERE id = {game_id};"
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
+    event_dictionary = cursor.fetchall()
+
+    return event_dictionary
 def main():
     menu()
     while True:
@@ -254,9 +296,21 @@ def main():
             if balance < 0:
                 print_text("gameover")
                 break
+            print_text("map")
             neighbors = get_neighbors(current_station)
             print(f"\nYou're arriving at {station_name[0]}.\n")
-            print(get_story())
+            trigger = event_trigger_chance()
+            if trigger:
+                event_dictionary = check_event()
+                event_name = event_dictionary[0]['name']
+
+                event_balance = event_dictionary[0]['balance']
+                update_balance(event_balance, game_id)
+
+                print(f"You met a {event_name}. You're balance got updated by {event_balance}.")
+                balance = get_balance(game_id)
+            else:
+                print(get_story())
             print(f"\nYour balance is {balance} bottles of vodka.")
             print("Connected stations:\n...")
 
