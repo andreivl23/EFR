@@ -249,6 +249,25 @@ def get_airplane(game_id):
     airplane_stationname = cursor.fetchone()
     return airplane_stationname[0]
 
+
+def event_trigger_chance():
+    result = random.randint(0, 2)
+    if result == 1:
+        roll = True
+    else:
+        roll = False
+
+    return roll
+
+
+def check_event():
+    game_id = random.randint(2, 5)
+    sql = f"SELECT name, balance FROM events WHERE id = {game_id};"
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
+    event_dictionary = cursor.fetchall()
+
+    return event_dictionary
 def main():
     menu()
     while True:
@@ -280,7 +299,18 @@ def main():
             print_text("map")
             neighbors = get_neighbors(current_station)
             print(f"\nYou're arriving at {station_name[0]}.\n")
-            print(get_story())
+            trigger = event_trigger_chance()
+            if trigger:
+                event_dictionary = check_event()
+                event_name = event_dictionary[0]['name']
+
+                event_balance = event_dictionary[0]['balance']
+                update_balance(event_balance, game_id)
+
+                print(f"You met a {event_name}. You're balance got updated by {event_balance}.")
+                balance = get_balance(game_id)
+            else:
+                print(get_story())
             print(f"\nYour balance is {balance} bottles of vodka.")
             print("Connected stations:\n...")
 
