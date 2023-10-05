@@ -105,7 +105,7 @@ def difficulty():
         print("2. Medium (10 PRIME)")
         print("3. Hard (5 PRIME)")
 
-        choose = input()
+        choose = input("Choose: ")
         if choose == "1":
             balance = 15
             chosen = False
