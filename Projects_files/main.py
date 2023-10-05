@@ -71,7 +71,7 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
             |                   |         /                      Surgut--"Novy Urengoy"
         Saints Petersburg---Yaroslavl----/--Perm--|                 |                         Urgal
                   |          /             /      Yekaterinburg--Tyumen  Ust-Ilimsk  Tommot   /   |
-            /----Moskova----/----Kazan----/------/      |           |        |          |    /  Khabarovsk
+            /-----Moscow----/----Kazan----/------/      |           |        |          |    /  Khabarovsk
             |          |                        /       Kurgan----Omsk   Bratsk-------Tynda-/      |
         Voronezh----|   Saratov---------------Ufa                   |   /     |         |       Vladivostok
             |       |       |  |                                    |  /      |         |
