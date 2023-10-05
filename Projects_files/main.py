@@ -7,7 +7,7 @@ import mysql.connector
 connection = mysql.connector.connect(
          host='172.232.129.9',
          port=3306,
-         database='efr_test',
+         database='efr_mini_test',
          user='root',
          password='123321',
          autocommit=True
@@ -62,26 +62,17 @@ ESCAPE FROM RUSSIA\n
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
     elif option == "map":
         print("""
-        Murmansk												                            Nizhny Bestyakh	     Sovetskaya Gavan
-	     |													            		    	 	        |                 |
-Belomorsk - Arkhangelsk 	Pechora---Vorkuta----Salekhard								           Tommot	Urgal---Komsomolsk-on-Amur
-	|	     |	     		|							                                                 |   /         /          
-	|	Konosha - Kotlas----|					Nadym---Novy Urengoy				      Nizhneangarsk---Tynda  	  /+Khabarovsk--Vladivostok
-	|	| 						                            |  			   	   	                          |   |    Birobidzhan    
-	|	Vologda - Yaroslavl - Kirov--------Perm	            Surgut-------Nizhnevartovsk	  Ust-Ilimsk      |   |   /
-	|	|    	  |		|	   |		      |			     	 |	                              |       |   Never----
- Saint Petersburg - Moscow--"Nizhny Novgorod" Yekaterinburg------Tyumen		Lesosibirsk    Bratsk-+-Ust-Kut           |
-                     |  |     | |		 	  /	 |      		   |		       |			  |                 /Chita
-Smolensk-------------/	|-----/ |		 	 /   |---Kurgan--Omsk-----Novosibirsk--+--Krasnoyarsk-+--Irkutsk---Ulan-Ude
-	         | 			|	 	|	        |	 |			   |			                     /
-Bryanks------/	   /----+-------+-------Kazan	Chelyabinsk    ---Barbaul---Abakan--------------/
-  |      /         |            |		 |			     |           |
-Oryol--------Voronezh---------Saratov---Samara-----Ufa---+-----------/
-		        |			  |	   	 |                  /
-		        |------Volgograd	Orenburg    /------/
-	    Rostov-on-Don          |	     	|  /	
-		        |	      Astrakhan---------Orsk
-Novorossiysk---Krasnodar
+        Murmansk-----------Arkhangelsk     ---Pechora--Vorkuta
+            |                   |         /                      Surgut--"Novy Urengoy"
+        Saints Petersburg---Yaroslavl----/--Perm--|                 |                         Urgal
+                  |          /             /      Yekaterinburg--Tyumen  Ust-Ilimsk  Tommot   /   |
+            /----Moskova----/----Kazan----/------/      |           |        |          |    /  Khabarovsk
+            |          |                        /       Kurgan----Omsk   Bratsk-------Tynda-/      |
+        Voronezh----|   Saratov---------------Ufa                   |   /     |         |       Vladivostok
+            |       |       |  |                                    |  /      |         |
+        Krasnodar---Volgograd  Orenburg                        Krasnojarsk   Irkutsk--Chita
+                        |           |   
+                    Astrakhan       Orsk
         """)
 
 
@@ -296,8 +287,9 @@ def main():
             if balance < 0:
                 print_text("gameover")
                 break
-            print_text("map")
+            print_text('map')
             neighbors = get_neighbors(current_station)
+
             print(f"\nYou're arriving at {station_name[0]}.\n")
             trigger = event_trigger_chance()
             if trigger:
@@ -311,6 +303,7 @@ def main():
                 balance = get_balance(game_id)
             else:
                 print(get_story())
+
             print(f"\nYour balance is {balance} bottles of vodka.")
             print("Connected stations:\n...")
 
@@ -323,6 +316,7 @@ def main():
 
             while (current_station not in neighbors) and current_station != 'x':
                 print('\n\nWrong input, please try again.')
+
                 for choice in neighbors:
                     city, city_id = neighbors[choice]
                     print(f"{choice}) {city}")
