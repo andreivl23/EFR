@@ -155,11 +155,11 @@ def start(resource, current_station, player, stations):
 
     random.shuffle(t_stations)
 
-    for i, event_id in enumerate(events_list):
-        sql = f"INSERT INTO events_location (game, station, event)" \
-              f" VALUES ({g_id}, '{t_stations[i]['StationName']}', {event_id});"
-        cursor = connection.cursor(dictionary=True)
-        cursor.execute(sql)
+#    for i, event_id in enumerate(events_list):        # Removed for-loop due to a bug. Added only passport location to Database
+    sql = f"INSERT INTO events_location (game, station, event)" \
+          f" VALUES ({g_id}, '{t_stations[0]['StationName']}', {1});"
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
 
     return g_id
 
