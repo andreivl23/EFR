@@ -81,8 +81,10 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
         """)
 
 
-def menu():
+def menu(skip):
     chosen = 0
+    if skip == 1:
+        main()
     while chosen != "1":
         print_text("menu")
         chosen = input("Choose: ")
@@ -267,7 +269,7 @@ def check_event():
 
 
 def main():
-    menu()
+    menu(0)
     while True:
         screen_refresh()
 
@@ -288,7 +290,7 @@ def main():
             station_name = get_current_station_name(current_station)
             if passport_location == station_name[0]:
                 print_text("win")
-                menu()
+                menu(1)
             balance = get_balance(game_id)
             if balance < 0:
                 print_text("gameover")
@@ -332,7 +334,7 @@ def main():
                 break
             city, current_station = neighbors[current_station]
 
-        menu()
+        menu(0)
 
 
 main()
