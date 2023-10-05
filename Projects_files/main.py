@@ -61,6 +61,10 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
         input("Press enter to continue")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
+    elif option == "win":
+        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\nYou are now returning safely to America, where PRIME is widely available")
+
+        input("\n\nPress ENTER to continue")
     elif option == "map":
         print("""
         Murmansk-----------Arkhangelsk     ---Pechora--Vorkuta
@@ -283,8 +287,7 @@ def main():
 
             station_name = get_current_station_name(current_station)
             if airplane_location == station_name[0]:
-                print("YOU WON!")
-                input("...")
+                print_text("win")
                 menu()
             balance = get_balance(game_id)
             if balance < 0:
