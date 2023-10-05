@@ -60,29 +60,6 @@ ESCAPE FROM RUSSIA\n
         input("Press enter to continue")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
-    elif option == "map":
-        print("""
-        Murmansk												                            Nizhny Bestyakh	     Sovetskaya Gavan
-	     |													            		    	 	        |                 |
-Belomorsk - Arkhangelsk 	Pechora---Vorkuta----Salekhard								           Tommot	Urgal---Komsomolsk-on-Amur
-	|	     |	     		|							                                                 |   /         /          
-	|	Konosha - Kotlas----|					Nadym---Novy Urengoy				      Nizhneangarsk---Tynda  	  /+Khabarovsk--Vladivostok
-	|	| 						                            |  			   	   	                          |   |    Birobidzhan    
-	|	Vologda - Yaroslavl - Kirov--------Perm	            Surgut-------Nizhnevartovsk	  Ust-Ilimsk      |   |   /
-	|	|    	  |		|	   |		      |			     	 |	                              |       |   Never----
- Saint Petersburg - Moscow--"Nizhny Novgorod" Yekaterinburg------Tyumen		Lesosibirsk    Bratsk-+-Ust-Kut           |
-                     |  |     | |		 	  /	 |      		   |		       |			  |                 /Chita
-Smolensk-------------/	|-----/ |		 	 /   |---Kurgan--Omsk-----Novosibirsk--+--Krasnoyarsk-+--Irkutsk---Ulan-Ude
-	         | 			|	 	|	        |	 |			   |			                     /
-Bryanks------/	   /----+-------+-------Kazan	Chelyabinsk    ---Barbaul---Abakan--------------/
-  |      /         |            |		 |			     |           |
-Oryol--------Voronezh---------Saratov---Samara-----Ufa---+-----------/
-		        |			  |	   	 |                  /
-		        |------Volgograd	Orenburg    /------/
-	    Rostov-on-Don          |	     	|  /	
-		        |	      Astrakhan---------Orsk
-Novorossiysk---Krasnodar
-        """)
 
 
 def menu():
@@ -277,7 +254,6 @@ def main():
             if balance < 0:
                 print_text("gameover")
                 break
-            print_text("map")
             neighbors = get_neighbors(current_station)
             print(f"\nYou're arriving at {station_name[0]}.\n")
             print(get_story())
