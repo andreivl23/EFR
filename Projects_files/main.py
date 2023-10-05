@@ -238,12 +238,12 @@ def update_balance(amount, game_id):
     return
 
 
-def get_airplane(game_id):
+def get_passport(game_id):
     sql = f"SELECT station FROM events_location WHERE event = 1 AND game = {game_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
-    airplane_stationname = cursor.fetchone()
-    return airplane_stationname[0]
+    passport_stationname = cursor.fetchone()
+    return passport_stationname[0]
 
 
 def event_trigger_chance():
@@ -274,7 +274,7 @@ def main():
         ##################### Start #########################
 
         current_station, game_id = create_game()
-        airplane_location = get_airplane(game_id)
+        passport_location = get_passport(game_id)
         while True:
             screen_refresh()
             moveto(current_station)
@@ -286,7 +286,7 @@ def main():
             ################### STATION MENU ################
 
             station_name = get_current_station_name(current_station)
-            if airplane_location == station_name[0]:
+            if passport_location == station_name[0]:
                 print_text("win")
                 menu()
             balance = get_balance(game_id)
