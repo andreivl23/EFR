@@ -15,7 +15,7 @@ connection = mysql.connector.connect(
 
 
 def screen_refresh():
-    print("\n"*30)
+    print("\n"*60)
     return
 
 
@@ -38,25 +38,26 @@ ESCAPE FROM RUSSIA\n
 
     elif option == "manual":
         screen_refresh()
-        print(f'''𝐘𝐨𝐮𝐫 𝐠𝐨𝐚𝐥 𝐢𝐬 𝐭𝐨 𝐟𝐢𝐧𝐝 𝐚𝐧 𝐚𝐢𝐫𝐩𝐥𝐚𝐧𝐞, 𝐭𝐡𝐚𝐭 𝐢𝐬 𝐡𝐢𝐝𝐝𝐞𝐧 𝐢𝐧 𝐚 𝐫𝐚𝐧𝐝𝐨𝐦 𝐜𝐢𝐭𝐲.
-𝐖𝐡𝐞𝐧 𝐲𝐨𝐮 𝐚𝐫𝐞 𝐚𝐭 𝐬𝐭𝐚𝐭𝐢𝐨𝐧, 𝐲𝐨𝐮 𝐜𝐚𝐧 𝐦𝐨𝐯𝐞 𝐨𝐧𝐥𝐲 𝐭𝐨 𝐬𝐭𝐚𝐭𝐢𝐨𝐧𝐬 𝐧𝐞𝐱𝐭 𝐭𝐨 𝐭𝐡𝐞 𝐜𝐮𝐫𝐫𝐞𝐧𝐭 𝐬𝐭𝐚𝐭𝐢𝐨𝐧.
-𝐓𝐲𝐩𝐞 𝐧𝐮𝐦𝐛𝐞𝐫 (𝐢𝐝) 𝐨𝐟 𝐬𝐭𝐚𝐭𝐢𝐨𝐧 𝐭𝐨 𝐜𝐡𝐚𝐧𝐠𝐞 𝐲𝐨𝐮𝐫 𝐥𝐨𝐜𝐚𝐭𝐢𝐨𝐧.
-𝐓𝐨 𝐞𝐱𝐢𝐭 𝐭𝐡𝐞 𝐠𝐚𝐦𝐞, 𝐞𝐧𝐭𝐞𝐫 "𝐱" 𝐢𝐧𝐬𝐭𝐞𝐚𝐝 𝐨𝐟 𝐭𝐡𝐞 𝐬𝐭𝐚𝐭𝐢𝐨𝐧 𝐧𝐮𝐦𝐛𝐞𝐫 (𝐢𝐝).
-𝐄𝐚𝐜𝐡 𝐭𝐫𝐚𝐯𝐞𝐥 𝐜𝐨𝐬𝐭𝐬 𝐨𝐧𝐞 𝐛𝐨𝐭𝐭𝐥𝐞 𝐨𝐟 𝐯𝐨𝐝𝐤𝐚. 𝐘𝐨𝐮 𝐡𝐚𝐯𝐞 𝐥𝐢𝐦𝐢𝐭𝐞𝐝 𝐚𝐦𝐨𝐮𝐧𝐭 𝐨𝐟 𝐯𝐨𝐝𝐤𝐚.
-𝐃𝐮𝐫𝐢𝐧𝐠 𝐲𝐨𝐮𝐫 𝐭𝐫𝐚𝐯𝐞𝐥 𝐛𝐞𝐭𝐰𝐞𝐞𝐧 𝐬𝐭𝐚𝐭𝐢𝐨𝐧𝐬, 𝐭𝐡𝐞𝐫𝐞 𝐢𝐬 𝐚 𝐜𝐡𝐚𝐧𝐜𝐞 𝐬𝐨𝐦𝐞𝐭𝐡𝐢𝐧𝐠 𝐰𝐢𝐥𝐥 𝐡𝐚𝐩𝐩𝐞𝐧.
-𝐈𝐧 𝐭𝐡𝐨𝐬𝐞 𝐞𝐯𝐞𝐧𝐭𝐬, 𝐲𝐨𝐮 𝐜𝐚𝐧 𝐞𝐢𝐭𝐡𝐞𝐫 𝐞𝐚𝐫𝐧 𝐨𝐫 𝐥𝐨𝐬𝐞 𝐯𝐨𝐝𝐤𝐚 𝐛𝐨𝐭𝐭𝐥𝐞𝐬.
+        print(f'''You need to find your passport, which is hidden in a random city.
+When you arrive at stations, you can only move between neighboring cities. 
+As you play, you would be able to memorize one letter of the city by consuming PRIME.
+When you get enough letters to guess the name of the city, try to get there without consuming all the PRIME.
+One movement costs one PRIME. You can either lose or get PRIME at random events.
+To exit the game to menu, type "x" at "Where to:?"
 ''')
         input("Press enter to continue")
     elif option == "story":
         screen_refresh()
-        print(f'''𝐘𝐨𝐮'𝐫𝐞 𝐭𝐡𝐞 𝐩𝐚𝐫𝐥𝐢𝐚𝐦𝐞𝐧𝐭𝐚𝐫𝐢𝐚𝐧 𝐰𝐡𝐨 𝐬𝐭𝐨𝐥𝐞 𝐦𝐨𝐧𝐞𝐲 𝐟𝐫𝐨𝐦 𝐚 𝐠𝐨𝐯𝐞𝐫𝐧𝐦𝐞𝐧𝐭 𝐜𝐨𝐧𝐭𝐫𝐚𝐜𝐭 𝐚𝐧𝐝 𝐠𝐨𝐭 𝐜𝐚𝐮𝐠𝐡𝐭. 
-𝐓𝐡𝐞 𝐏𝐫𝐞𝐬𝐢𝐝𝐞𝐧𝐭 𝐡𝐚𝐬 𝐝𝐞𝐜𝐥𝐚𝐫𝐞𝐝 𝐲𝐨𝐮 𝐚𝐬 𝐚𝐧 𝐞𝐧𝐞𝐦𝐲 𝐨𝐟 𝐭𝐡𝐞 𝐩𝐞𝐨𝐩𝐥𝐞. 𝐓𝐡𝐞 𝐰𝐡𝐨𝐥𝐞 𝐜𝐨𝐮𝐧𝐭𝐫𝐲 𝐢𝐬 𝐥𝐨𝐨𝐤𝐢𝐧𝐠 𝐟𝐨𝐫 𝐲𝐨𝐮. 𝐘𝐨𝐮 𝐦𝐮𝐬𝐭 
-𝐭𝐨 𝐡𝐢𝐝𝐞 𝐥𝐢𝐤𝐞 𝐚 𝐛𝐮𝐦. 𝐀𝐬 𝐬𝐨𝐨𝐧 𝐚𝐬 𝐲𝐨𝐮 𝐬𝐨𝐛𝐞𝐫 𝐮𝐩, 𝐭𝐡𝐞 𝐛𝐮𝐦𝐬 𝐰𝐢𝐥𝐥 𝐤𝐢𝐜𝐤 𝐲𝐨𝐮 𝐨𝐮𝐭 𝐨𝐟 𝐭𝐡𝐞𝐢𝐫 𝐩𝐚𝐫𝐭𝐲. 
-𝐘𝐨𝐮 𝐡𝐚𝐝 𝐚 𝐬𝐩𝐚𝐫𝐞 𝐩𝐥𝐚𝐧𝐞, 𝐛𝐮𝐭 𝐲𝐨𝐮 𝐝𝐨𝐧'𝐭 𝐫𝐞𝐦𝐞𝐦𝐛𝐞𝐫 𝐰𝐡𝐞𝐫𝐞 𝐲𝐨𝐮 𝐥𝐞𝐟𝐭 𝐢𝐭.
+        print(f'''You are an American that were on trip in Russia, but when your trip came to an end,
+you realized that you lost your passport at Starbucks cafe, but you don't remember in which city.
+You don't have any money left but you still have your PRIME drinks,
+that are valued by Russian citizens. Is it going to be over soon or will you get stuck in Russia?
 ''')
         input("Press enter to continue")
     elif option == "gameover":
-        print(f"::::::::::::::::::::::\nTHE TRAIN RAN OVER YOU\n::::::::::::::::::::::\n\n")
+        print(f"::::::::::::::::::::::\nYOU ARE OUT OF PRIME\n::::::::::::::::::::::\n\n"
+              f"No one believes you now that you are from America and you became a Russian forever. \n")
+
         input("Press enter to continue")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
