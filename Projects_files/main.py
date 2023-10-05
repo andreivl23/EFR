@@ -71,7 +71,7 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
             |                   |         /                      Surgut--"Novy Urengoy"
         Saints Petersburg---Yaroslavl----/--Perm--|                 |                         Urgal
                   |          /             /      Yekaterinburg--Tyumen  Ust-Ilimsk  Tommot   /   |
-            /----Moskova----/----Kazan----/------/      |           |        |          |    /  Khabarovsk
+            /-----Moscow----/----Kazan----/------/      |           |        |          |    /  Khabarovsk
             |          |                        /       Kurgan----Omsk   Bratsk-------Tynda-/      |
         Voronezh----|   Saratov---------------Ufa                   |   /     |         |       Vladivostok
             |       |       |  |                                    |  /      |         |
@@ -105,7 +105,7 @@ def difficulty():
         print("2. Medium (10 PRIME)")
         print("3. Hard (5 PRIME)")
 
-        choose = input()
+        choose = input("Choose: ")
         if choose == "1":
             balance = 15
             chosen = False
