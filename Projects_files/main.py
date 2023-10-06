@@ -415,8 +415,11 @@ def main():
                     balance = 0
             else:
                 print(get_story())
-            print(f"\nYou're at {station_name[0]}.\n")
+            print()
+            input("Press enter to continue...")
+
             print_text('map')
+            print(f"You're at {station_name[0]}.")
             print(f"\nYour balance is {balance} bottles of PRIME.")
             print("Connected stations:\n...")
 
