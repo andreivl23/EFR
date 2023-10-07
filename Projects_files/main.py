@@ -14,15 +14,22 @@ connection = mysql.connector.connect(
          )
 
 
+def slowprint(text, speed):
+    for char in text:
+        print(char, end='', flush=True)  # Print a character without a newline
+        time.sleep(speed)
+    return
+
+
 def screen_refresh():
     print("\n"*60)
     return
 
 
-def slowprint(text, speed):
-    for char in text:
-        print(char, end='', flush=True)  # Print a character without a newline
-        time.sleep(speed)
+def cleartable():
+    sql = "DELETE FROM Game"
+    cursor = connection.cursor()
+    cursor.execute(sql)
     return
 
 
@@ -41,7 +48,7 @@ ESCAPE FROM RUSSIA\n
         print(f'''You need to find your passport, which is hidden in a random city.
 When you arrive at stations, you can only move between neighboring cities. 
 As you play, you would be able to memorize one letter of the city by consuming PRIME.
-When you get enough letters to guess the name of the city, try to get there without consuming all the PRIME.
+When you get enough letters to guess the name of the city, try to get there without using all the PRIME.
 One movement costs one PRIME. You can either lose or get PRIME at random events.
 To exit the game to menu, type "x" at "Where to:?"
 ''')
@@ -55,6 +62,7 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
 ''')
         input("Press enter to continue")
     elif option == "gameover":
+        print()
         print(f"::::::::::::::::::::::\nYOU ARE OUT OF PRIME\n::::::::::::::::::::::\n\n"
               f"No one believes you now that you are from America and you became a Russian forever. \n")
 
@@ -62,13 +70,16 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
     elif option == "win":
-        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\nYou are now returning safely to America, where PRIME is widely available")
+        print()
+        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\n"
+              "You are now returning safely to America, where PRIME is widely available!")
+
 
         input("\n\nPress ENTER to continue")
     elif option == "map":
         print("""
         Murmansk-----------Arkhangelsk     ---Pechora--Vorkuta
-            |                   |         /                      Surgut--"Novy Urengoy"
+            |                   |         /                      Surgut--Novy Urengoy
         Saints Petersburg---Yaroslavl----/--Perm--|                 |                         Urgal
                   |          /             /      Yekaterinburg--Tyumen  Ust-Ilimsk  Tommot   /   |
             /-----Moscow----/----Kazan----/------/      |           |        |          |    /  Khabarovsk
@@ -81,109 +92,116 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
         """)
 
 
-def menu(skip):
-    chosen = 0
-    if skip == 1:
-        main()
-    while chosen != "1":
-        print_text("menu")
-        chosen = input("Choose: ")
-        if chosen == "2":
-            print_text("story")
-        elif chosen == "3":
-            print_text("manual")
-        elif chosen == "4":
-            print('\nSee you again! :)\n')
-            sys.exit()
+def move_use_balance():
+    result = random.randint(1, 3)
+    if result == 1:
+        print("Realizing you need to cover a long distance,\n"
+              "you offer a bottle of PRIME to a fellow passenger in exchange for a ticket to a city.")
+    elif result == 2:
+        print("You offer a bottle of PRIME to the station manager\n"
+              "as a gesture to secure your passage on the next train to another city.")
+    elif result == 3:
+        print("By extending a bottle of PRIME to a Russian teenager,\n"
+              "he reciprocates by providing you with a train ticket in exchange.")
+    else:
+        print("Your train encounters an unexpected delay due to a technical issue.\n"
+              "You offer a PRIME bottle to the train conductor,\n"
+              "hoping it might expedite the repairs. In return,\n"
+              "they prioritize the fix")
+    print()
 
 
-def difficulty():
-    chosen = True
-    while chosen:
-        print("Choose your difficulty: 1, 2 or 3.")
-        print("1. Easy (15 PRIME)")
-        print("2. Medium (10 PRIME)")
-        print("3. Hard (5 PRIME)")
-
-        choose = input("Choose: ")
-        if choose == "1":
-            balance = 15
-            chosen = False
-        elif choose == "2":
-            balance = 10
-            chosen = False
-        elif choose == "3":
-            balance = 5
-            chosen = False
-        else:
-            print("Wrong input! Please try again.")
+def event_story(name, balance):
+    update = balance
+    if name == "finnish":
+        print("You saw a cheerful Finnish man coming out of the sauna who handed you a bottle of PRIME.")
+    elif name == "american":
+        print("As you savor the finest drink in hand,\n"
+              "a fellow American approaches with two bottles of PRIME and a sparkling smile.")
+    elif name == "bully":
+        print("A bully swoops in and snatches one of the PRIME bottles, leaving you one less bottle of PRIME.")
+    elif name == "russian":
+        print("As you relish the exquisite drink in your hand,\n"  
+              "a friendly Russian comes over with two bottles of PRIME and a warm smile.\n")
+        print()
+        print("However, in an unexpected turn of events, a mischievous individual swiftly takes two bottles from you,\n"
+              "leaving you empty-handed, but determined to stay positive.")
+    elif name == "rival":
+        loop = True
+        print("You meet your Russian twin lookalike brother,\n"
+              "who also happens to be your rival, and he offers to play a game with you.")
+        print()
+        while loop:
+            answer = input("Do you want to play the game with your rival? (Y/N)\n").upper()
             print()
+            if answer == "Y":
+                rival_dice = random.randint(1, 6)
+                your_dice = random.randint(1, 6)
+                print(f"Your rival performs a spirited Russian dance reminiscent of the one in the\n"
+                      f"'Dschinghis Khan - Moskau' music video.\n")
+                print()
+                print(f"With flair, they roll the dice, revealing a {rival_dice}.\n"
+                      f"They challenge you to surpass their roll.")
 
-    return balance
+                print()
+                dance_loop = True
+                while dance_loop:
+                    choice = input("Do you wanna dance before rolling? (Y/N)\n").upper()
+                    print()
+                    if choice == "Y":
+                        print("You execute the floss dance with all the flair of a true American Backpack Kid,\n"
+                              "accompanied by Katy Perry's 'Swish Swish' blaring from your phone.")
+
+                        print()
+                        input("Press enter to roll...")
+                        print()
+                        dance_loop = False
+                    elif choice == "N":
+                        print()
+                        input("Press enter to roll...")
+                        print()
+                        dance_loop = False
+                    else:
+                        print("Invalid input!")
+
+                if rival_dice > your_dice:
+                    print(f"You rolled a {your_dice} lower score than your rival,\n"
+                          "who continues to dance and laugh mockingly\n"
+                          "as they seize three bottles of your cherished PRIME.\n")
+                    update = -1 * balance
+                elif rival_dice < your_dice:
+                    print(f"You rolled a {your_dice} superior score compared to your rival,\n"
+                          "causing them to stumble and drop three bottles of PRIME.\n"
+                          "They gather the fallen bottles and offer them to you as a token of your victory.\n")
+                else:
+                    print(f"You rolled {your_dice}."
+                          f"The rolls resulted in a perfect tie. Your rival sighs and begins to walk away slowly.\n")
+                    update = 0
+                loop = False
+            elif answer == "N":
+                print("Your rival gazes at you with disappointment.")
+                update = 0
+                loop = False
+            else:
+                print("Invalid input!")
+
+    return update
 
 
-def get_stations():
-    sql = """SELECT StationID, StationName
-    FROM stations
-    ORDER by RAND()"""
+def check_event(events_probability):
+    filtered_events_probability = events_probability[1:]
+    index = random.randint(0, 30)
+    game_id = filtered_events_probability[index]
+
+    sql = f"SELECT name, balance FROM events WHERE id = {game_id};"
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
+    event_dictionary = cursor.fetchall()
 
+    name = event_dictionary[0]['name']
+    balance = event_dictionary[0]['balance']
 
-def get_events():
-    sql = "SELECT id, name, balance, probability FROM events;"
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
-
-
-def start(resource, current_station, player, stations):
-    sql = f"INSERT INTO game (ScreenName, Location, Balance) VALUES ('{player}', '{current_station}', {resource});"
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute(sql)
-    g_id = cursor.lastrowid
-
-    events = get_events()
-    events_list = []
-
-    for event in events:
-        for i in range(0, event['probability'], 1):
-            events_list.append(event['id'])
-
-    t_stations = stations[1:].copy()
-
-    random.shuffle(t_stations)
-
-#    for i, event_id in enumerate(events_list):        # Removed for-loop due to a bug. Added only passport location to Database
-    sql = f"INSERT INTO events_location (game, station, event)" \
-          f" VALUES ({g_id}, '{t_stations[0]['StationName']}', {1});"
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute(sql)
-
-    return g_id
-
-
-def create_game():
-    prime_balance = difficulty()
-    screen_name = str(input("Choose your name: "))
-    print('\n\n... Loading ...\n\n')
-    if screen_name == 'Hero':
-        prime_balance = 100000
-
-    all_stations = get_stations()
-    current_station = all_stations[0]['StationID']
-    game_id = start(prime_balance, current_station, screen_name, all_stations)
-
-    return current_station, game_id
-
-
-def moveto(station):
-    sql = f"UPDATE Game SET Location = '{station}' "
-    cursor = connection.cursor()
-    cursor.execute(sql)
+    return name, balance
 
 
 def get_story():
@@ -192,6 +210,34 @@ def get_story():
     cursor.execute(sql)
     story = cursor.fetchone()
     return story[0]
+
+
+def event_trigger_chance():
+    roll = True
+    result = random.randint(1, 10)
+    if result <= 3:
+        roll = False
+
+    return roll
+
+
+def prime_for_letter(station, game_id):
+    loop = True
+    choice = True
+    while loop:
+        print("Do you want to use 5 bottles of PRIME to reveal the first letter of the passport location?")
+        answer = input("(Y/N)").upper()
+        if answer == "N":
+            loop = False
+        elif answer == "Y":
+            screen_refresh()
+            print(f"::::::::::::::::::::: The first letter of the station is: {station[0]} :::::::::::::::::::::")
+            update_balance(-5, game_id)
+            choice = False
+            loop = False
+        else:
+            print("Wrong input!")
+    return choice
 
 
 def get_balance(game_id):
@@ -226,13 +272,6 @@ def get_neighbors(station_id):
     return neighbors_dictionary
 
 
-def cleartable():
-    sql = "DELETE FROM Game"
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    return
-
-
 def update_balance(amount, game_id):
     sql = f"UPDATE game SET Balance = Balance+({amount}) WHERE GameID = '{game_id}'"
     cursor = connection.cursor()
@@ -240,49 +279,144 @@ def update_balance(amount, game_id):
     return
 
 
+def moveto(station):
+    sql = f"UPDATE Game SET Location = '{station}' "
+    cursor = connection.cursor()
+    cursor.execute(sql)
+
+
 def get_passport(game_id):
     sql = f"SELECT station FROM events_location WHERE event = 1 AND game = {game_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
-    passport_stationname = cursor.fetchone()
-    return passport_stationname[0]
+    passport_station_name = cursor.fetchone()
+    return passport_station_name[0]
 
 
-def event_trigger_chance():
-    result = random.randint(0, 2)
-    if result == 1:
-        roll = True
-    else:
-        roll = False
-
-    return roll
-
-
-def check_event():
-    game_id = random.randint(2, 5)
-    sql = f"SELECT name, balance FROM events WHERE id = {game_id};"
+def get_events():
+    sql = "SELECT id, name, balance, probability FROM events;"
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql)
-    event_dictionary = cursor.fetchall()
+    result = cursor.fetchall()
+    return result
 
-    return event_dictionary
+
+def start(resource, current_station, player, stations):
+    sql = f"INSERT INTO game (ScreenName, Location, Balance) VALUES ('{player}', '{current_station}', {resource});"
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
+    g_id = cursor.lastrowid
+
+    events = get_events()
+    events_list = []
+
+    for event in events:
+        for i in range(0, event['probability'], 1):
+            events_list.append(event['id'])
+
+    t_stations = stations[1:].copy()
+
+    random.shuffle(t_stations)
+
+    for i, event_id in enumerate(events_list):
+        sql = f"INSERT INTO events_location (game, station, event)" \
+          f" VALUES ({g_id}, '{t_stations[i]['StationName']}', {event_id});"
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(sql)
+
+    return g_id, events_list
+
+
+def get_stations():
+    sql = """SELECT StationID, StationName
+    FROM stations
+    ORDER by RAND()"""
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    return result
+
+
+def difficulty():
+    chosen = True
+    balance = 0
+    while chosen:
+        print("Choose your difficulty: 1, 2 or 3.")
+        print("1. Easy (15 PRIME)")
+        print("2. Medium (10 PRIME)")
+        print("3. Hard (5 PRIME)")
+
+        choose = input("Choose: ")
+        if choose == "1":
+            balance = 15
+            chosen = False
+        elif choose == "2":
+            balance = 10
+            chosen = False
+        elif choose == "3":
+            balance = 5
+            chosen = False
+        else:
+            print("Wrong input! Please try again.")
+            print()
+
+    print()
+    print(f"You start with {balance} bottles of PRIME.")
+    return balance
+
+
+def create_game():
+    prime_balance = difficulty()
+    screen_name = str(input("Choose your name: "))
+    print('\n\n... Loading ...\n\n')
+    if screen_name == 'Hero':
+        prime_balance = 100000
+
+    all_stations = get_stations()
+    current_station = all_stations[0]['StationID']
+    game_id, events_list = start(prime_balance, current_station, screen_name, all_stations)
+
+    return current_station, game_id, events_list
+
+
+def menu(skip):
+    chosen = 0
+    if skip == 1:
+        main()
+    while chosen != "1":
+        print_text("menu")
+        chosen = input("Choose: ")
+        if chosen == "2":
+            print_text("story")
+        elif chosen == "3":
+            print_text("manual")
+        elif chosen == "4":
+            print('\nSee you again! :)\n')
+            sys.exit()
 
 
 def main():
     menu(0)
     while True:
         screen_refresh()
-
         ##################### Start #########################
-
-        current_station, game_id = create_game()
+        game_round = 0
+        current_station, game_id, events_probability = create_game()
         passport_location = get_passport(game_id)
+        used = True
+
         while True:
             screen_refresh()
+            game_round += 1
             moveto(current_station)
             update_balance(-1, game_id)
+            balance = get_balance(game_id)
 
-
+            if balance < 0:
+                print_text("gameover")
+                break
+            else:
+                move_use_balance()
 
 
             ################### STATION MENU ################
@@ -291,27 +425,31 @@ def main():
             if passport_location == station_name[0]:
                 print_text("win")
                 menu(1)
-            balance = get_balance(game_id)
-            if balance < 0:
-                print_text("gameover")
-                break
-            print_text('map')
             neighbors = get_neighbors(current_station)
-
-            print(f"\nYou're arriving at {station_name[0]}.\n")
             trigger = event_trigger_chance()
             if trigger:
-                event_dictionary = check_event()
-                event_name = event_dictionary[0]['name']
+                event_name, event_balance = check_event(events_probability)
+                update_event_balance = event_story(event_name, event_balance)
 
-                event_balance = event_dictionary[0]['balance']
-                update_balance(event_balance, game_id)
-
-                print(f"You met a {event_name}. You're balance got updated by {event_balance}.")
+                update_balance(update_event_balance, game_id)
                 balance = get_balance(game_id)
+                if balance < 0:
+                    balance = 0
+
             else:
                 print(get_story())
+            print()
+            input("Press enter to continue...")
+            screen_refresh()
 
+            if (game_round % 5) == 0 and balance >= 10:
+                if used:
+                    choice = prime_for_letter(passport_location, game_id)
+                    balance = get_balance(game_id)
+                    used = choice
+
+            print_text('map')
+            print(f"You're at {station_name[0]}.")
             print(f"\nYour balance is {balance} bottles of PRIME.")
             print("Connected stations:\n...")
 
