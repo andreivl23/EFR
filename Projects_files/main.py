@@ -30,6 +30,8 @@ def cleartable():
     sql = "DELETE FROM Game"
     cursor = connection.cursor()
     cursor.execute(sql)
+    sql = "DELETE FROM events_location"
+    cursor.execute(sql)
     return
 
 
@@ -392,6 +394,7 @@ def menu(skip):
             print_text("manual")
         elif chosen == "4":
             print('\nSee you again! :)\n')
+            cleartable()
             sys.exit()
 
 
