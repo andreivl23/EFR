@@ -137,7 +137,7 @@ def event_story(name, balance):
               "a friendly Russian comes over with two bottles of PRIME and a warm smile.\n")
         print()
         slowprint("However, in an unexpected turn of events, a mischievous individual swiftly takes two bottles from you,\n"
-              "leaving you empty-handed, but determined to stay positive.")
+              "leaving you empty-handed, but you are determined to stay positive.")
     elif name == "rival":
         loop = True
         slowprint("You meet your Russian twin lookalike brother,\n"
