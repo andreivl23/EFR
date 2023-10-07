@@ -14,10 +14,10 @@ connection = mysql.connector.connect(
          )
 
 
-def slowprint(text, speed):
+def slowprint(text):
     for char in text:
         print(char, end='', flush=True)  # Print a character without a newline
-        time.sleep(speed)
+        time.sleep(0.02)
     return
 
 
@@ -55,7 +55,7 @@ To exit the game to menu, type "x" at "Where to:?"
         input("Press enter to continue")
     elif option == "story":
         screen_refresh()
-        print(f'''You are an American that were on trip in Russia, but when your trip came to an end,
+        slowprint(f'''You are an American that were on trip in Russia, but when your trip came to an end,
 you realized that you lost your passport at Starbucks cafe, but you don't remember in which city.
 You don't have any money left but you still have your PRIME drinks,
 that are valued by Russian citizens. Is it going to be over soon or will you get stuck in Russia?
@@ -63,16 +63,16 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
         input("Press enter to continue")
     elif option == "gameover":
         print()
-        print(f"::::::::::::::::::::::\nYOU ARE OUT OF PRIME\n::::::::::::::::::::::\n\n"
-              f"No one believes you now that you are from America and you became a Russian forever. \n")
+        print(f"::::::::::::::::::::::\nYOU ARE OUT OF PRIME\n::::::::::::::::::::::\n\n")
+        slowprint(f"No one believes you now that you are from America and you became a Russian forever. \n\n")
 
         input("Press enter to continue")
     elif option == "chuh-chuh":
         print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
     elif option == "win":
         print()
-        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\n"
-              "You are now returning safely to America, where PRIME is widely available!")
+        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\n")
+        slowprint("You are now returning safely to America, where PRIME is widely available!")
 
 
         input("\n\nPress ENTER to continue")
@@ -95,16 +95,16 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
 def move_use_balance():
     result = random.randint(1, 3)
     if result == 1:
-        print("Realizing you need to cover a long distance,\n"
+        slowprint("Realizing you need to cover a long distance,\n"
               "you offer a bottle of PRIME to a fellow passenger in exchange for a ticket to a city.")
     elif result == 2:
-        print("You offer a bottle of PRIME to the station manager\n"
+        slowprint("You offer a bottle of PRIME to the station manager\n"
               "as a gesture to secure your passage on the next train to another city.")
     elif result == 3:
-        print("By extending a bottle of PRIME to a Russian teenager,\n"
+        slowprint("By extending a bottle of PRIME to a Russian teenager,\n"
               "he reciprocates by providing you with a train ticket in exchange.")
     else:
-        print("Your train encounters an unexpected delay due to a technical issue.\n"
+        slowprint("Your train encounters an unexpected delay due to a technical issue.\n"
               "You offer a PRIME bottle to the train conductor,\n"
               "hoping it might expedite the repairs. In return,\n"
               "they prioritize the fix")
@@ -114,21 +114,21 @@ def move_use_balance():
 def event_story(name, balance):
     update = balance
     if name == "finnish":
-        print("You saw a cheerful Finnish man coming out of the sauna who handed you a bottle of PRIME.")
+        slowprint("You saw a cheerful Finnish man coming out of the sauna who handed you a bottle of PRIME.")
     elif name == "american":
-        print("As you savor the finest drink in hand,\n"
+        slowprint("As you savor the finest drink in hand,\n"
               "a fellow American approaches with two bottles of PRIME and a sparkling smile.")
     elif name == "bully":
         print("A bully swoops in and snatches one of the PRIME bottles, leaving you one less bottle of PRIME.")
     elif name == "russian":
-        print("As you relish the exquisite drink in your hand,\n"  
+        slowprint("As you relish the exquisite drink in your hand,\n"  
               "a friendly Russian comes over with two bottles of PRIME and a warm smile.\n")
         print()
-        print("However, in an unexpected turn of events, a mischievous individual swiftly takes two bottles from you,\n"
+        slowprint("However, in an unexpected turn of events, a mischievous individual swiftly takes two bottles from you,\n"
               "leaving you empty-handed, but determined to stay positive.")
     elif name == "rival":
         loop = True
-        print("You meet your Russian twin lookalike brother,\n"
+        slowprint("You meet your Russian twin lookalike brother,\n"
               "who also happens to be your rival, and he offers to play a game with you.")
         print()
         while loop:
@@ -137,10 +137,10 @@ def event_story(name, balance):
             if answer == "Y":
                 rival_dice = random.randint(1, 6)
                 your_dice = random.randint(1, 6)
-                print(f"Your rival performs a spirited Russian dance reminiscent of the one in the\n"
+                slowprint(f"Your rival performs a spirited Russian dance reminiscent of the one in the\n"
                       f"'Dschinghis Khan - Moskau' music video.\n")
                 print()
-                print(f"With flair, they roll the dice, revealing a {rival_dice}.\n"
+                slowprint(f"With flair, they roll the dice, revealing a {rival_dice}.\n"
                       f"They challenge you to surpass their roll.")
 
                 print()
@@ -149,7 +149,7 @@ def event_story(name, balance):
                     choice = input("Do you wanna dance before rolling? (Y/N)\n").upper()
                     print()
                     if choice == "Y":
-                        print("You execute the floss dance with all the flair of a true American Backpack Kid,\n"
+                        slowprint("You execute the floss dance with all the flair of a true American Backpack Kid,\n"
                               "accompanied by Katy Perry's 'Swish Swish' blaring from your phone.")
 
                         print()
@@ -165,21 +165,21 @@ def event_story(name, balance):
                         print("Invalid input!")
 
                 if rival_dice > your_dice:
-                    print(f"You rolled a {your_dice} lower score than your rival,\n"
+                    slowprint(f"You rolled a {your_dice} lower score than your rival,\n"
                           "who continues to dance and laugh mockingly\n"
                           "as they seize three bottles of your cherished PRIME.\n")
                     update = -1 * balance
                 elif rival_dice < your_dice:
-                    print(f"You rolled a {your_dice} superior score compared to your rival,\n"
+                    slowprint(f"You rolled a {your_dice} superior score compared to your rival,\n"
                           "causing them to stumble and drop three bottles of PRIME.\n"
                           "They gather the fallen bottles and offer them to you as a token of your victory.\n")
                 else:
-                    print(f"You rolled {your_dice}."
+                    slowprint(f"You rolled {your_dice}."
                           f"The rolls resulted in a perfect tie. Your rival sighs and begins to walk away slowly.\n")
                     update = 0
                 loop = False
             elif answer == "N":
-                print("Your rival gazes at you with disappointment.")
+                slowprint("Your rival gazes at you with disappointment.")
                 update = 0
                 loop = False
             else:
@@ -225,7 +225,7 @@ def prime_for_letter(station, game_id):
     loop = True
     choice = True
     while loop:
-        print("Do you want to use 5 bottles of PRIME to reveal the first letter of the passport location?")
+        slowprint("Do you want to use 5 bottles of PRIME to reveal the first letter of the passport location?")
         answer = input("(Y/N)").upper()
         if answer == "N":
             loop = False
