@@ -64,15 +64,24 @@ that are valued by Russian citizens. Is it going to be over soon or will you get
 ''')
         input("Press enter to continue")
     elif option == "gameover":
-        print()
+        screen_refresh()
         print(f"::::::::::::::::::::::\nYOU ARE OUT OF PRIME\n::::::::::::::::::::::\n\n")
         slowprint(f"No one believes you now that you are from America and you became a Russian forever. \n\n")
-
         input("Press enter to continue")
-    elif option == "chuh-chuh":
-        print("... ... ... ... ... ... ... ...\n      Chuh-Chuh Chuh-Chuh\n... ... ... ... ... ... ... ...\n\n\n\n")
+    elif option == "choo-choo":
+        screen_refresh()
+        print("             ...")
+        time.sleep(0.2)
+        print("             ...")
+        time.sleep(0.2)
+        print("... ... ... ... ... ... ... ...\n      Choo-Choo Choo-Choo\n... ... ... ... ... ... ... ...")
+        time.sleep(0.2)
+        print("             ...")
+        time.sleep(0.2)
+        print("             ...")
+        time.sleep(0.2)
     elif option == "win":
-        print()
+        screen_refresh()
         print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\n")
         slowprint("You are now returning safely to America, where PRIME is widely available!")
 
@@ -115,6 +124,7 @@ def move_use_balance():
 
 def event_story(name, balance):
     update = balance
+    screen_refresh()
     if name == "finnish":
         slowprint("You saw a cheerful Finnish man coming out of the sauna who handed you a bottle of PRIME.")
     elif name == "american":
@@ -134,7 +144,8 @@ def event_story(name, balance):
               "who also happens to be your rival, and he offers to play a game with you.")
         print()
         while loop:
-            answer = input("Do you want to play the game with your rival? (Y/N)\n").upper()
+            time.sleep(0.2)
+            answer = input("\nDo you want to play the game with your rival? (Y/N)\n").upper()
             print()
             if answer == "Y":
                 rival_dice = random.randint(1, 6)
@@ -148,7 +159,8 @@ def event_story(name, balance):
                 print()
                 dance_loop = True
                 while dance_loop:
-                    choice = input("Do you wanna dance before rolling? (Y/N)\n").upper()
+                    time.sleep(0.2)
+                    choice = input("\nDo you wanna dance before rolling? (Y/N)\n").upper()
                     print()
                     if choice == "Y":
                         slowprint("You execute the floss dance with all the flair of a true American Backpack Kid,\n"
@@ -420,11 +432,16 @@ def main():
                 break
             else:
                 move_use_balance()
+            time.sleep(1)
+            print_text("choo-choo")
+            time.sleep(0.2)
 
 
-            ################### STATION MENU ################
+            ################### EVENTS ###################
 
             station_name = get_current_station_name(current_station)
+            print(f"\n\nArriving at {station_name[0]}...")
+            time.sleep(1)
             if passport_location == station_name[0]:
                 print_text("win")
                 menu(1)
@@ -440,9 +457,10 @@ def main():
                     balance = 0
 
             else:
-                print(get_story())
+                screen_refresh()
+                slowprint(get_story())
             print()
-            input("Press enter to continue...")
+            input("\nPress enter to continue...")
             screen_refresh()
 
             if (game_round % 5) == 0 and balance >= 10:
@@ -450,6 +468,8 @@ def main():
                     choice = prime_for_letter(passport_location, game_id)
                     balance = get_balance(game_id)
                     used = choice
+
+            ################### STATION MENU ###################
 
             print_text('map')
             print(f"You're at {station_name[0]}.")
