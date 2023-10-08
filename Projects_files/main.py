@@ -358,7 +358,7 @@ def prime_for_letter(station, game_id):
             loop = False
         elif answer == "Y":
             screen_refresh()
-            print(f"{GOLD}::::::::::::::::::::: The first letter of the station is: {station[0]} :::::::::::::::::::::{RESET}")
+            print(f"{GOLD}        ::::::::::::::::::::::::::::::: The first letter of the station is: {station[0]} :::::::::::::::::::::::::::::::{RESET}")
             update_balance(-5, game_id)
             choice = False
             loop = False
