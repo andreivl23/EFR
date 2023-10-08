@@ -71,19 +71,19 @@ def print_text(option):
     elif option == "manual":
         screen_refresh()
         print(f'''You need to find your passport, which is hidden in a random city.
-When you arrive at stations, you can only move between neighboring cities. 
-As you play, you would be able to memorize one letter of the city by consuming PRIME.
-When you get enough letters to guess the name of the city, try to get there without using all the PRIME.
-One movement costs one PRIME. You can either lose or get PRIME at random events.
+When you arrive at stations, you can only move between neighboring cities.  \n
+As you play, at some point you would be able to memorize first letter of the city by consuming PRIME.
+
+One movement costs one PRIME.\nYou can either lose or get PRIME at random events. \n
 To exit the game to menu, type "x" at "Where to:?"
 ''')
         input("Press enter to continue")
     elif option == "story":
         screen_refresh()
-        slowprint(f'''You are an American that were on trip in Russia, but when your trip came to an end,
-you realized that you lost your passport at Starbucks cafe, but you don't remember in which city.
-You don't have any money left but you still have your PRIME drinks,
-that are valued by Russian citizens. Is it going to be over soon or will you get stuck in Russia?
+        slowprint(f'''You are an American that were on trip in Russia, but when you were on your way to the airport,
+you realized that you lost your passport at Starbucks cafe, but you don't remember in which city. \n
+You don't have any money left but you still have your {GOLD}PRIME drinks,{RESET}
+that are valued by Russian citizens. Will you find your passport and fly back home or will you get stuck in Russia forever? \n
 ''')
         input("Press enter to continue")
     elif option == "gameover":
