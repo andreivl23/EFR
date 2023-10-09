@@ -5,11 +5,11 @@ import mysql.connector
 
 
 connection = mysql.connector.connect(
-         host='172.232.129.9',
+         host='127.0.0.1',
          port=3306,
-         database='efr_mini_test',
+         database='efr_mini_upgrade',
          user='root',
-         password='123321',
+         password='Summer23',
          autocommit=True
          )
 
@@ -306,12 +306,8 @@ def event_story(name, balance):
     return update
 
 
-def check_event(events_probability):
-    filtered_events_probability = events_probability[1:]
-    index = random.randint(0, 30)
-    game_id = filtered_events_probability[index]
-
-    sql = f"SELECT name, balance FROM events WHERE id = {game_id};"
+def check_event(event_num):
+    sql = f"SELECT name, balance FROM events WHERE id = {event_num};"
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql)
     event_dictionary = cursor.fetchall()
@@ -330,26 +326,29 @@ def get_story():
     return story[0]
 
 
-def event_trigger_chance():
-    roll = True
-    result = random.randint(1, 10)
-    if result <= 3:
-        roll = False
-
-    return roll
+def get_num_of_event(current_station):
+    sql = f"Select opened, event from events_location where id = {current_station}"
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    number, event = cursor.fetchone()
+    if number == 0:
+        sql = f"UPDATE events_location set opened = 1 where id = {current_station};"
+        cursor.execute(sql)
+    return number, event
 
 
 def prime_for_letter(station, game_id):
+    station = str(station)
     loop = True
     choice = True
     while loop:
         slowprint("Do you want to use 5 bottles of PRIME to reveal the first letter of the passport location?")
-        answer = input("(Y/N)").upper()
+        answer = input("(Y/N)\n").upper()
         if answer == "N":
             loop = False
         elif answer == "Y":
             screen_refresh()
-            print(f"::::::::::::::::::::: The first letter of the station is: {station[0]} :::::::::::::::::::::")
+            print(f"::::::::::::::::::::: The first letter of the station is: {station[2]} :::::::::::::::::::::")
             update_balance(-5, game_id)
             choice = False
             loop = False
@@ -366,7 +365,7 @@ def get_balance(game_id):
     return balance[0]
 
 
-def get_current_station_name(station_id):
+def get_station_name(station_id):
     sql = f"SELECT StationName FROM Stations WHERE StationID = {station_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
@@ -404,11 +403,11 @@ def moveto(station):
 
 
 def get_passport(game_id):
-    sql = f"SELECT station FROM events_location WHERE event = 1 AND game = {game_id}"
+    sql = f"SELECT id FROM events_location WHERE event = 1 AND game = {game_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
-    passport_station_name = cursor.fetchone()
-    return passport_station_name[0]
+    passport_station_id = cursor.fetchone()
+    return passport_station_id[0]
 
 
 def get_events():
@@ -419,8 +418,8 @@ def get_events():
     return result
 
 
-def start(resource, current_station, player, stations):
-    sql = f"INSERT INTO game (ScreenName, Location, Balance) VALUES ('{player}', '{current_station}', {resource});"
+def start(resource, current_station, player):
+    sql = f"INSERT INTO game (ScreenName, Location, Balance) VALUES ('{player}', {current_station}, {resource});"
     cursor = connection.cursor(dictionary=True)
     cursor.execute(sql)
     g_id = cursor.lastrowid
@@ -432,27 +431,15 @@ def start(resource, current_station, player, stations):
         for i in range(0, event['probability'], 1):
             events_list.append(event['id'])
 
-    t_stations = stations[1:].copy()
-
-    random.shuffle(t_stations)
+    t_stations = random.sample(range(1,34),33)
 
     for i, event_id in enumerate(events_list):
-        sql = f"INSERT INTO events_location (game, station, event)" \
-          f" VALUES ({g_id}, '{t_stations[i]['StationName']}', {event_id});"
+        sql = f"INSERT INTO events_location (id, game, event)" \
+          f" VALUES ({t_stations[i]}, {g_id}, {event_id});"
         cursor = connection.cursor(dictionary=True)
         cursor.execute(sql)
 
     return g_id, events_list
-
-
-def get_stations():
-    sql = """SELECT StationID, StationName
-    FROM stations
-    ORDER by RAND()"""
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    return result
 
 
 def difficulty():
@@ -490,14 +477,14 @@ def create_game():
     if screen_name == 'Hero':
         prime_balance = 100000
 
-    all_stations = get_stations()
-    current_station = all_stations[0]['StationID']
-    game_id, events_list = start(prime_balance, current_station, screen_name, all_stations)
+    current_station = random.randint(1,33)
+    game_id, events_list = start(prime_balance, current_station, screen_name)
 
     return current_station, game_id, events_list
 
 
 def menu(skip):
+    cleartable()
     chosen = 0
     if skip == 1:
         main()
@@ -519,9 +506,11 @@ def main():
     while True:
         screen_refresh()
         ##################### Start #########################
-        game_round = 0
+        game_round = 4
+
         current_station, game_id, events_probability = create_game()
         passport_location = get_passport(game_id)
+        passport_st_name = get_station_name(passport_location)
         used = True
 
         while True:
@@ -543,16 +532,18 @@ def main():
 
             ################### EVENTS ###################
 
-            station_name = get_current_station_name(current_station)
+            station_name = get_station_name(current_station)
             print(f"\n\nArriving at {station_name[0]}...")
             time.sleep(1)
-            if passport_location == station_name[0]:
+            if passport_location == current_station:
                 print_text("win")
                 menu(1)
+
             neighbors = get_neighbors(current_station)
-            trigger = event_trigger_chance()
-            if trigger:
-                event_name, event_balance = check_event(events_probability)
+            open, event_num = get_num_of_event(current_station)
+
+            if open == 0:
+                event_name, event_balance = check_event(event_num)
                 update_event_balance = event_story(event_name, event_balance)
 
                 update_balance(update_event_balance, game_id)
@@ -567,9 +558,9 @@ def main():
             input("\nPress enter to continue...")
             screen_refresh()
 
-            if (game_round % 5) == 0 and balance >= 10:
+            if ((game_round % 5) == 0 and balance >= 10) and used:
                 if used:
-                    choice = prime_for_letter(passport_location, game_id)
+                    choice = prime_for_letter(passport_st_name, game_id)
                     balance = get_balance(game_id)
                     used = choice
 
