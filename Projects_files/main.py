@@ -3,13 +3,18 @@ import sys
 import time
 import mysql.connector
 
+RED = '\033[31m'
+BLUE = '\033[34m'
+RESET = '\033[0m'
+GOLD = '\033[38;5;220m'
+GREEN = '\033[32m'
 
 connection = mysql.connector.connect(
-         host='127.0.0.1',
+         host='172.232.129.9',
          port=3306,
-         database='efr_mini_upgrade',
+         database='efr_mini',
          user='root',
-         password='Summer23',
+         password='123321',
          autocommit=True
          )
 
@@ -44,19 +49,19 @@ def print_text(option):
 █████╗  ███████╗██║     ███████║██████╔╝█████╗  
 ██╔══╝  ╚════██║██║     ██╔══██║██╔═══╝ ██╔══╝  
 ███████╗███████║╚██████╗██║  ██║██║     ███████╗
-╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚══════╝                      
+╚══════╝╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝     ╚══════╝ """ +  BLUE +  """              
 ███████╗██████╗  ██████╗ ███╗   ███╗            
 ██╔════╝██╔══██╗██╔═══██╗████╗ ████║            
 █████╗  ██████╔╝██║   ██║██╔████╔██║            
 ██╔══╝  ██╔══██╗██║   ██║██║╚██╔╝██║            
 ██║     ██║  ██║╚██████╔╝██║ ╚═╝ ██║            
-╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝                            
+╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝     """ + RED + """                       
 ██████╗ ██╗   ██╗███████╗███████╗██╗ █████╗     
 ██╔══██╗██║   ██║██╔════╝██╔════╝██║██╔══██╗    
 ██████╔╝██║   ██║███████╗███████╗██║███████║    
 ██╔══██╗██║   ██║╚════██║╚════██║██║██╔══██║    
 ██║  ██║╚██████╔╝███████║███████║██║██║  ██║    
-╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚═╝╚═╝  ╚═╝                        
+╚═╝  ╚═╝ ╚═════╝ ╚══════╝╚══════╝╚═╝╚═╝  ╚═╝  """ + RESET + """                      
 ::::::::::::::::::
 1) Start new game
 2) Game story
@@ -66,110 +71,114 @@ def print_text(option):
     elif option == "manual":
         screen_refresh()
         print(f'''You need to find your passport, which is hidden in a random city.
-When you arrive at stations, you can only move between neighboring cities. 
-As you play, you would be able to memorize one letter of the city by consuming PRIME.
-When you get enough letters to guess the name of the city, try to get there without using all the PRIME.
-One movement costs one PRIME. You can either lose or get PRIME at random events.
+When you arrive at stations, you can only move between neighboring cities.  \n
+As you play, at some point you would be able to memorize first letter of the city by consuming PRIME.
+
+One movement costs one PRIME.\nYou can either lose or get PRIME at random events. \n
 To exit the game to menu, type "x" at "Where to:?"
 ''')
         input("Press enter to continue")
     elif option == "story":
         screen_refresh()
-        slowprint(f'''You are an American that were on trip in Russia, but when your trip came to an end,
-you realized that you lost your passport at Starbucks cafe, but you don't remember in which city.
-You don't have any money left but you still have your PRIME drinks,
-that are valued by Russian citizens. Is it going to be over soon or will you get stuck in Russia?
+        slowprint(f'''You are an American that were on trip in Russia, but when you were on your way to the airport,
+you realized that you lost your passport at Starbucks cafe, but you don't remember in which city. \n
+You don't have any money left but you still have your {GOLD}PRIME drinks,{RESET}
+that are valued by Russian citizens. Will you find your passport and fly back home or will you get stuck in Russia forever? \n
 ''')
         input("Press enter to continue")
     elif option == "gameover":
         screen_refresh()
-        print("""
-██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗████████╗
-╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝╚══██╔══╝
- ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗   ██║   
-  ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║   ██║   
-   ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║   ██║   
-   ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   
-                                                                         
+        print(RED + """
+    ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗      ██████╗ ███████╗████████╗
+    ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║     ██╔═══██╗██╔════╝╚══██╔══╝
+     ╚████╔╝ ██║   ██║██║   ██║    ██║     ██║   ██║███████╗   ██║   
+      ╚██╔╝  ██║   ██║██║   ██║    ██║     ██║   ██║╚════██║   ██║   
+       ██║   ╚██████╔╝╚██████╔╝    ███████╗╚██████╔╝███████║   ██║   
+       ╚═╝    ╚═════╝  ╚═════╝     ╚══════╝ ╚═════╝ ╚══════╝   ╚═╝   
+                                                                             
         """)
-        print(f"::::::::::::::::::::::\nYOU ARE OUT OF PRIME\n::::::::::::::::::::::\n\n")
+        print(f"""            
+                        ::::::::::::::::::::                      
+                        YOU ARE OUT OF PRIME
+                        ::::::::::::::::::::
+        """ + RESET)
         slowprint(f"No one believes you now that you are from America and you became a Russian forever. \n\n")
         input("Press enter to continue")
     elif option == "choo-choo":
         screen_refresh()
-        print("""  
+        print(RED + """   
 o o o o o
 ____      o
 ][]]_n_n__][.
 |__|________)<
-'oo 0000---oo\_
+'oo 0000---oo\_ + """ + RESET + """  
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 """)
         time.sleep(0.2)
         screen_refresh()
-        print("""  
+        print(RED + """  
  . . . . . o o o o o
  _______    ____      o
 [_____(__  ][]]_n_n__][.
 [________]_|__|________)<
- oo    oo 'oo 0000---oo\_
+ oo    oo 'oo 0000---oo\_ """ + RESET + """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 """)
         time.sleep(0.2)
         screen_refresh()
-        print("""  
+        print(RED + """  
             . . . . . o o o o o
 ___________ _______    ____      o
 [] [] [] [] [_____(__  ][]]_n_n__][.
 [_________]_[________]_|__|________)<
-oo      oo ' oo    oo 'oo 0000---oo\_
+oo      oo ' oo    oo 'oo 0000---oo\_ """ + RESET + """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         
         """)
         #print("... ... ... ... ... ... ... ...\n      Choo-Choo Choo-Choo\n... ... ... ... ... ... ... ...")
         time.sleep(0.2)
         screen_refresh()
-        print("""  
+        print(RED + """  
                              . . . . . o o o o o
       _________ ___________ _______    ____      o
      |[] [] []| [] [] [] [] [_____(__  ][]]_n_n__][.
      |________|_[_________]_[________]_|__|________)<
-      oo    oo 'oo      oo ' oo    oo 'oo 0000---oo\_
+      oo    oo 'oo      oo ' oo    oo 'oo 0000---oo\_ """ + RESET + """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 """)
         time.sleep(0.2)
         screen_refresh()
-        print("""  
+        print(RED + """  
                                             . . . . . o o o o o
                       _________ ___________ _______    ____      o
                      |[] [] []| [] [] [] [] [_____(__  ][]]_n_n__][.
                      |________|_[_________]_[________]_|__|________)<
-                      oo    oo 'oo      oo ' oo    oo 'oo 0000---oo\_
+                      oo    oo 'oo      oo ' oo    oo 'oo 0000---oo\_ """ + RESET + """
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                 """)
         time.sleep(0.2)
         screen_refresh()
-        print("""  
+        print(RED + """  
                                                                             . . . . . o o o o o
                                                      _________ ___________ _______    ____      o
                                                     |[] [] []| [] [] [] [] [_____(__  ][]]_n_n__][.
                                                     |________|_[_________]_[________]_|__|________)<
-                                                     oo    oo 'oo      oo ' oo    oo 'oo 0000---oo\_
+                                                     oo    oo 'oo      oo ' oo    oo 'oo 0000---oo\_ """ + RESET + """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
                        """)
         time.sleep(0.2)
         screen_refresh()
-        print("""
+        print(RED + """
                                                                                                              .
                                                                                          _________ ___________
                                                                                         |[] [] []| [] [] [] []
                                                                                         |________|_[_________]
-                                                                                         oo    oo 'oo      oo 
+                                                                                         oo    oo 'oo      oo  """ + RESET + """
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
        
         """)
@@ -177,16 +186,16 @@ oo      oo ' oo    oo 'oo 0000---oo\_
         screen_refresh()
     elif option == "win":
         screen_refresh()
-        print("""
-██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗ ██████╗ ███╗   ██╗██╗
-╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██╔═══██╗████╗  ██║██║
- ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║   ██║██╔██╗ ██║██║
-  ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║   ██║██║╚██╗██║╚═╝
-   ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║ ╚████║██╗
-   ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝
+        print(GOLD + """
+     ██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗ ██████╗ ███╗   ██╗██╗
+     ╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██╔═══██╗████╗  ██║██║
+      ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║   ██║██╔██╗ ██║██║
+       ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║   ██║██║╚██╗██║╚═╝
+        ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝╚██████╔╝██║ ╚████║██╗
+        ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═══╝╚═╝
                                                                
         """)
-        print("::::::::::::::::::::: YOU FOUND THE PASSPORT! :::::::::::::::::::::\n")
+        print(":::::::::::::::::::::::: YOU FOUND THE PASSPORT! ::::::::::::::::::::::::\n"+ RESET )
         slowprint("You are now returning safely to America, where PRIME is widely available!")
 
 
@@ -211,12 +220,12 @@ def move_use_balance():
     result = random.randint(1, 3)
     if result == 1:
         slowprint("Realizing you need to cover a long distance,\n"
-              "you offer a bottle of PRIME to a fellow passenger in exchange for a ticket to a city.")
+              "you offer a bottle of "+RED+"PRIME"+RESET+" to a fellow passenger in exchange for a ticket to a city.")
     elif result == 2:
-        slowprint("You offer a bottle of PRIME to the station manager\n"
+        slowprint("You offer a bottle of "+RED+"PRIME"+RESET+" to the station manager\n"
               "as a gesture to secure your passage on the next train to another city.")
     elif result == 3:
-        slowprint("By extending a bottle of PRIME to a Russian teenager,\n"
+        slowprint("By extending a bottle of "+RED+"PRIME"+RESET+" to a Russian teenager,\n"
               "he reciprocates by providing you with a train ticket in exchange.")
     else:
         slowprint("Your train encounters an unexpected delay due to a technical issue.\n"
@@ -230,17 +239,17 @@ def event_story(name, balance):
     update = balance
     screen_refresh()
     if name == "finnish":
-        slowprint("You saw a cheerful Finnish man coming out of the sauna who handed you a bottle of PRIME.")
+        slowprint("You saw a cheerful Finnish man coming out of the sauna who handed you a bottle of "+GREEN+"PRIME."+RESET)
     elif name == "american":
         slowprint("As you savor the finest drink in hand,\n"
-              "a fellow American approaches with two bottles of PRIME and a sparkling smile.")
+              "a fellow American approaches with "+GREEN+"2 bottles of PRIME"+RESET+" and a sparkling smile.")
     elif name == "bully":
-        print("A bully swoops in and snatches one of the PRIME bottles, leaving you one less bottle of PRIME.")
+        print("A bully swoops in and snatches one of the "+RED+"PRIME"+RESET+" bottles, leaving you one less bottle of PRIME.")
     elif name == "russian":
         slowprint("As you relish the exquisite drink in your hand,\n"  
               "a friendly Russian comes over with two bottles of PRIME and a warm smile.\n")
         print()
-        slowprint("However, in an unexpected turn of events, a mischievous individual swiftly takes two bottles from you,\n"
+        slowprint("However, in an unexpected turn of events, a mischievous individual swiftly takes "+RED+"2 bottles of PRIME"+RESET+" from you,\n"
               "leaving you empty-handed, but you are determined to stay positive.")
     elif name == "rival":
         loop = True
@@ -283,13 +292,13 @@ def event_story(name, balance):
                         print("Invalid input!")
 
                 if rival_dice > your_dice:
-                    slowprint(f"You rolled a {your_dice} lower score than your rival,\n"
+                    slowprint(f"You rolled a {RED}{your_dice}{RESET} lower score than your rival,\n"
                           "who continues to dance and laugh mockingly\n"
-                          "as they seize three bottles of your cherished PRIME.\n")
+                          f"as they seize {RED}three bottles of your cherished PRIME.{RESET}\n")
                     update = -1 * balance
                 elif rival_dice < your_dice:
-                    slowprint(f"You rolled a {your_dice} superior score compared to your rival,\n"
-                          "causing them to stumble and drop three bottles of PRIME.\n"
+                    slowprint(f"You rolled a {GREEN}{your_dice}{RESET} superior score compared to your rival,\n"
+                          f"causing them to stumble and drop {GREEN}three bottles of PRIME.{RESET}\n"
                           "They gather the fallen bottles and offer them to you as a token of your victory.\n")
                 else:
                     slowprint(f"You rolled {your_dice}."
@@ -342,18 +351,18 @@ def prime_for_letter(station, game_id):
     loop = True
     choice = True
     while loop:
-        slowprint("Do you want to use 5 bottles of PRIME to reveal the first letter of the passport location?")
+        slowprint(GOLD + "Do you want to use 5 bottles of PRIME to reveal the first letter of the passport location?"+RESET)
         answer = input("(Y/N)\n").upper()
         if answer == "N":
             loop = False
         elif answer == "Y":
             screen_refresh()
-            print(f"::::::::::::::::::::: The first letter of the station is: {station[2]} :::::::::::::::::::::")
+            print(f"{GOLD}        ::::::::::::::::::::::::::::::: The first letter of the station is: {station[2]} :::::::::::::::::::::::::::::::{RESET}")
             update_balance(-5, game_id)
             choice = False
             loop = False
         else:
-            print("Wrong input!")
+            print(RED+"Wrong input!"+RESET)
     return choice
 
 
@@ -462,7 +471,7 @@ def difficulty():
             balance = 5
             chosen = False
         else:
-            print("Wrong input! Please try again.")
+            print(RED +"Wrong input! Please try again."+RESET)
             print()
 
     print()
@@ -506,7 +515,6 @@ def main():
         screen_refresh()
         ##################### Start #########################
         game_round = 0
-
         current_station, game_id, events_probability = create_game()
         passport_location = get_passport(game_id)
         passport_st_name = get_station_name(passport_location)
@@ -537,7 +545,6 @@ def main():
             if passport_location == current_station:
                 print_text("win")
                 menu(1)
-
             neighbors = get_neighbors(current_station)
             open, event_num = get_num_of_event(current_station, game_id)
 
@@ -557,7 +564,7 @@ def main():
             input("\nPress enter to continue...")
             screen_refresh()
 
-            if ((game_round % 5) == 0 and balance >= 10) and used:
+            if (game_round % 5) == 0 and balance >= 10:
                 if used:
                     choice = prime_for_letter(passport_st_name, game_id)
                     balance = get_balance(game_id)
@@ -566,8 +573,8 @@ def main():
             ################### STATION MENU ###################
 
             print_text('map')
-            print(f"You're at {station_name[0]}.")
-            print(f"\nYour balance is {balance} bottles of PRIME.")
+            print(f"You're at {RED}{station_name[0]}{RESET}.")
+            print(f"\nYour balance is {GOLD}{balance}{RESET} bottles of PRIME.")
             print("Connected stations:\n...")
 
             for choice in neighbors:
@@ -578,7 +585,7 @@ def main():
             current_station = input("Where to: ")
 
             while (current_station not in neighbors) and current_station != 'x':
-                print('\n\nWrong input, please try again.')
+                print(RED + '\n\nWrong input, please try again.'+RESET)
 
                 for choice in neighbors:
                     city, city_id = neighbors[choice]
