@@ -326,8 +326,8 @@ def get_story():
     return story[0]
 
 
-def get_num_of_event(current_station):
-    sql = f"Select opened, event from events_location where id = {current_station}"
+def get_num_of_event(current_station, g_id):
+    sql = f"Select opened, event from events_location where id = {current_station} and game = {g_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
     number, event = cursor.fetchone()
@@ -484,7 +484,6 @@ def create_game():
 
 
 def menu(skip):
-    cleartable()
     chosen = 0
     if skip == 1:
         main()
@@ -506,7 +505,7 @@ def main():
     while True:
         screen_refresh()
         ##################### Start #########################
-        game_round = 4
+        game_round = 0
 
         current_station, game_id, events_probability = create_game()
         passport_location = get_passport(game_id)
@@ -540,7 +539,7 @@ def main():
                 menu(1)
 
             neighbors = get_neighbors(current_station)
-            open, event_num = get_num_of_event(current_station)
+            open, event_num = get_num_of_event(current_station, game_id)
 
             if open == 0:
                 event_name, event_balance = check_event(event_num)
