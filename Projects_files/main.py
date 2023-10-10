@@ -505,7 +505,7 @@ def menu(skip):
             print_text("manual")
         elif chosen == "4":
             print('\nSee you again! :)\n')
-            cleartable()
+            #cleartable()
             sys.exit()
 
 
