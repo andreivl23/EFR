@@ -14,7 +14,7 @@ connection = mysql.connector.connect(
          port=3306,
          database='efr_mini',
          user='root',
-         password='123321',
+         password='password',
          autocommit=True
          )
 
