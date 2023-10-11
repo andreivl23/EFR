@@ -405,8 +405,8 @@ def update_balance(amount, game_id):
     return
 
 
-def moveto(station):
-    sql = f"UPDATE Game SET Location = '{station}' "
+def moveto(station,game_id):
+    sql = f"UPDATE Game SET Location = '{station}' WHERE gameid = {game_id} "
     cursor = connection.cursor()
     cursor.execute(sql)
 
@@ -523,7 +523,7 @@ def main():
         while True:
             screen_refresh()
             game_round += 1
-            moveto(current_station)
+            moveto(current_station, game_id)
             update_balance(-1, game_id)
             balance = get_balance(game_id)
 
