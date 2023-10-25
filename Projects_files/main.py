@@ -10,7 +10,7 @@ GOLD = '\033[38;5;220m'
 GREEN = '\033[32m'
 
 connection = mysql.connector.connect(
-         host='172.232.129.9',
+         host='192.168.1.20',
          port=3306,
          database='efr_mini',
          user='American',
@@ -335,11 +335,13 @@ def get_story():
     return story[0]
 
 
-def get_num_of_event(current_station, g_id):
-    sql = f"Select opened, event from events_location where id = {current_station} and game = {g_id}"
+def get_num_of_event(current_station, game_id):
+    sql = f"Select opened, event from events_location where id = {current_station} and game = {game_id}"
     cursor = connection.cursor()
     cursor.execute(sql)
-    number, event = cursor.fetchone()
+    result = cursor.fetchall()
+    number = result[0][0]
+    event = result[0][1]
     if number == 0:
         sql = f"UPDATE events_location set opened = 1 where id = {current_station};"
         cursor.execute(sql)
